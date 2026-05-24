@@ -1,6 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Calendar, Users, Sparkles, ArrowRight } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -13,6 +15,11 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
+  const { session, loading } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!loading && session) navigate({ to: "/dashboard", replace: true });
+  }, [session, loading, navigate]);
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/60">
