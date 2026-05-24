@@ -216,7 +216,7 @@ function InvitesPanel() {
     toast.success("Invite link copied");
   };
 
-  const mailto = (invite: typeof data extends Array<infer T> ? T : never) => {
+  const mailto = (invite: NonNullable<typeof data>[number]) => {
     const url = `${window.location.origin}/invite/${invite.token}`;
     const subject = encodeURIComponent("Your NumeriQ invitation");
     const body = encodeURIComponent(
