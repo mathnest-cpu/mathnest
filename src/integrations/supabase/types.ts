@@ -222,31 +222,40 @@ export type Database = {
       }
       worksheets: {
         Row: {
+          assigned_grades: number[]
           created_at: string
-          file_name: string
-          grade: number
+          description: string | null
+          drive_url: string | null
+          file_name: string | null
+          grade: number | null
           id: string
-          storage_path: string
+          storage_path: string | null
           title: string
           topic: string | null
           uploaded_by: string
         }
         Insert: {
+          assigned_grades?: number[]
           created_at?: string
-          file_name: string
-          grade: number
+          description?: string | null
+          drive_url?: string | null
+          file_name?: string | null
+          grade?: number | null
           id?: string
-          storage_path: string
+          storage_path?: string | null
           title: string
           topic?: string | null
           uploaded_by: string
         }
         Update: {
+          assigned_grades?: number[]
           created_at?: string
-          file_name?: string
-          grade?: number
+          description?: string | null
+          drive_url?: string | null
+          file_name?: string | null
+          grade?: number | null
           id?: string
-          storage_path?: string
+          storage_path?: string | null
           title?: string
           topic?: string | null
           uploaded_by?: string
