@@ -32,7 +32,7 @@ function AppLayout() {
             <div className="grid h-8 w-8 place-items-center rounded-lg bg-[image:var(--gradient-primary)] text-primary-foreground font-bold">
               N
             </div>
-            <span className="font-semibold">NumeriQ</span>
+            <span className="font-semibold">MathNest</span>
             {role && (
               <span className="ml-2 rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground capitalize">
                 {role}
