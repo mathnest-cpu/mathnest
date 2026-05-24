@@ -110,6 +110,11 @@ function StudentDashboard() {
           ))}
         </div>
       </Card>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <StudentSessions />
+        <StudentAttendance />
+      </div>
     </div>
   );
 }
