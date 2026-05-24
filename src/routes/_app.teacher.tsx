@@ -11,8 +11,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-import { Copy, Mail, Upload, Users, FileText, Send } from "lucide-react";
+import { Copy, Mail, Upload, Users, FileText, Send, CalendarCheck, CalendarDays } from "lucide-react";
 import { format } from "date-fns";
+import { AttendancePanel } from "@/components/teacher/AttendancePanel";
+import { SessionsPanel } from "@/components/teacher/SessionsPanel";
 
 export const Route = createFileRoute("/_app/teacher")({
   component: TeacherDashboard,
@@ -42,14 +44,18 @@ function TeacherDashboard() {
       <Overview />
 
       <Tabs defaultValue="students">
-        <TabsList>
+        <TabsList className="flex-wrap">
           <TabsTrigger value="students"><Users className="mr-2 h-4 w-4" />Students</TabsTrigger>
           <TabsTrigger value="invites"><Mail className="mr-2 h-4 w-4" />Invites</TabsTrigger>
           <TabsTrigger value="worksheets"><FileText className="mr-2 h-4 w-4" />Worksheets</TabsTrigger>
+          <TabsTrigger value="attendance"><CalendarCheck className="mr-2 h-4 w-4" />Attendance</TabsTrigger>
+          <TabsTrigger value="sessions"><CalendarDays className="mr-2 h-4 w-4" />Sessions</TabsTrigger>
         </TabsList>
         <TabsContent value="students" className="mt-4"><StudentsPanel /></TabsContent>
         <TabsContent value="invites" className="mt-4"><InvitesPanel /></TabsContent>
         <TabsContent value="worksheets" className="mt-4"><WorksheetsPanel /></TabsContent>
+        <TabsContent value="attendance" className="mt-4"><AttendancePanel /></TabsContent>
+        <TabsContent value="sessions" className="mt-4"><SessionsPanel /></TabsContent>
       </Tabs>
     </div>
   );
