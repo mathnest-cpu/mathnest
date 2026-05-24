@@ -24,12 +24,14 @@ function Landing() {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/60">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground font-bold shadow-[var(--shadow-soft)]">
-              N
+          <div className="flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground font-bold shadow-[var(--shadow-soft)] shrink-0">
+              M
             </div>
-            <span className="text-lg font-semibold tracking-tight">MathNest</span>
-          </Link>
+            <span className="text-sm font-medium leading-tight text-muted-foreground max-w-[280px]">
+              MathNest helps Nisha's students learn, practise and track progress from anywhere in the world. Worksheets, classes and attendance, all in one calm place.
+            </span>
+          </div>
           <nav className="flex items-center gap-2">
             <Link to="/auth">
               <Button variant="ghost">Sign in</Button>
