@@ -12,7 +12,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
-  head: () => ({ meta: [{ title: "Sign in · NumeriQ" }] }),
+  head: () => ({ meta: [{ title: "Sign in · MathNest" }] }),
 });
 
 function AuthPage() {
@@ -30,7 +30,7 @@ function AuthPage() {
           <div className="grid h-10 w-10 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground font-bold shadow-[var(--shadow-soft)]">
             N
           </div>
-          <span className="text-xl font-semibold">NumeriQ</span>
+          <span className="text-xl font-semibold">MathNest</span>
         </Link>
         <Card className="p-8">
           <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>

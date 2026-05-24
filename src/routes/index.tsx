@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "NumeriQ — Online Math Tuition for Grades 3–10" },
+      { title: "MathNest — Online Math Tuition for Grades 3–10" },
       { name: "description", content: "Personal online math tuition for students worldwide. Worksheets, scheduled classes and progress tracking — all in one friendly place." },
     ],
   }),
@@ -28,7 +28,7 @@ function Landing() {
             <div className="grid h-9 w-9 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground font-bold shadow-[var(--shadow-soft)]">
               N
             </div>
-            <span className="text-lg font-semibold tracking-tight">NumeriQ</span>
+            <span className="text-lg font-semibold tracking-tight">MathNest</span>
           </Link>
           <nav className="flex items-center gap-2">
             <Link to="/auth">
@@ -50,7 +50,7 @@ function Landing() {
                 Math tuition that feels personal — and grows with your child.
               </h1>
               <p className="mt-5 text-lg text-muted-foreground">
-                NumeriQ helps Nisha's students learn, practise and track progress from anywhere in the world. Worksheets, classes and attendance — all in one calm place.
+                MathNest helps Nisha's students learn, practise and track progress from anywhere in the world. Worksheets, classes and attendance — all in one calm place.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link to="/auth">
@@ -90,7 +90,7 @@ function Landing() {
 
       <footer className="border-t border-border/60">
         <div className="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} NumeriQ
+          © 2026 MathNest
         </div>
       </footer>
     </div>

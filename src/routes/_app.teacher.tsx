@@ -18,7 +18,7 @@ import { SessionsPanel } from "@/components/teacher/SessionsPanel";
 
 export const Route = createFileRoute("/_app/teacher")({
   component: TeacherDashboard,
-  head: () => ({ meta: [{ title: "Teacher Dashboard · NumeriQ" }] }),
+  head: () => ({ meta: [{ title: "Teacher Dashboard · MathNest" }] }),
 });
 
 const GRADES = [3, 4, 5, 6, 7, 8, 9, 10];
@@ -224,9 +224,9 @@ function InvitesPanel() {
 
   const mailto = (invite: NonNullable<typeof data>[number]) => {
     const url = `${window.location.origin}/invite/${invite.token}`;
-    const subject = encodeURIComponent("Your NumeriQ invitation");
+    const subject = encodeURIComponent("Your MathNest invitation");
     const body = encodeURIComponent(
-      `Hi${invite.full_name ? " " + invite.full_name : ""},\n\nYou've been invited to join NumeriQ for Class ${invite.grade} math tuition.\n\nClick to accept: ${url}\n\nSign in with this Google account: ${invite.email}\n\nSee you in class!\nNisha`,
+      `Hi${invite.full_name ? " " + invite.full_name : ""},\n\nYou've been invited to join MathNest for Class ${invite.grade} math tuition.\n\nClick to accept: ${url}\n\nSign in with this Google account: ${invite.email}\n\nSee you in class!\nNisha`,
     );
     window.location.href = `mailto:${invite.email}?subject=${subject}&body=${body}`;
   };

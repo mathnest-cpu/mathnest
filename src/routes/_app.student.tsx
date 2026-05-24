@@ -13,7 +13,7 @@ import { StudentAttendance } from "@/components/student/StudentAttendance";
 
 export const Route = createFileRoute("/_app/student")({
   component: StudentDashboard,
-  head: () => ({ meta: [{ title: "My dashboard · NumeriQ" }] }),
+  head: () => ({ meta: [{ title: "My dashboard · MathNest" }] }),
 });
 
 function StudentDashboard() {

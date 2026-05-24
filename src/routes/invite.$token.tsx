@@ -8,7 +8,7 @@ import { CheckCircle2, AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/invite/$token")({
   component: InvitePage,
-  head: () => ({ meta: [{ title: "Accept invite · NumeriQ" }] }),
+  head: () => ({ meta: [{ title: "Accept invite · MathNest" }] }),
 });
 
 function InvitePage() {
@@ -49,7 +49,7 @@ function InvitePage() {
           <div className="grid h-10 w-10 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground font-bold shadow-[var(--shadow-soft)]">
             N
           </div>
-          <span className="text-xl font-semibold">NumeriQ</span>
+          <span className="text-xl font-semibold">MathNest</span>
         </Link>
         <Card className="p-8">
           {loading ? (
@@ -79,7 +79,7 @@ function InvitePage() {
               <h1 className="mt-3 text-xl font-semibold">You're invited!</h1>
               <p className="mt-1 text-sm text-muted-foreground">
                 {invite.full_name ? `Hi ${invite.full_name}, you've ` : "You've "}
-                been invited to join NumeriQ for <strong>Class {invite.grade}</strong>.
+                been invited to join MathNest for <strong>Class {invite.grade}</strong>.
               </p>
               <p className="mt-2 text-xs text-muted-foreground">
                 Sign in with <strong>{invite.email}</strong>.
