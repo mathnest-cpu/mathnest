@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      attendance: {
+        Row: {
+          created_at: string
+          id: string
+          marked_by: string
+          notes: string | null
+          session_date: string
+          status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          marked_by: string
+          notes?: string | null
+          session_date: string
+          status: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          marked_by?: string
+          notes?: string | null
+          session_date?: string
+          status?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       invites: {
         Row: {
           accepted_at: string | null
@@ -85,6 +118,48 @@ export type Database = {
           grade?: number | null
           id?: string
           timezone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sessions: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          ends_at: string
+          grade: number | null
+          id: string
+          meeting_url: string | null
+          starts_at: string
+          student_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          ends_at: string
+          grade?: number | null
+          id?: string
+          meeting_url?: string | null
+          starts_at: string
+          student_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          ends_at?: string
+          grade?: number | null
+          id?: string
+          meeting_url?: string | null
+          starts_at?: string
+          student_id?: string | null
+          title?: string
           updated_at?: string
         }
         Relationships: []
