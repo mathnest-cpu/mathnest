@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Download, BookOpen, Sparkles } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { StudentSessions } from "@/components/student/StudentSessions";
+import { StudentAttendance } from "@/components/student/StudentAttendance";
 
 export const Route = createFileRoute("/_app/student")({
   component: StudentDashboard,
@@ -30,6 +32,13 @@ function StudentDashboard() {
       return data;
     },
   });
+
+  // Auto-detect & persist timezone if missing
+  useEffect(() => {
+    if (!user || !profile || profile.timezone) return;
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz) supabase.from("profiles").update({ timezone: tz }).eq("id", user.id).then();
+  }, [user, profile]);
 
   const { data: worksheets, isLoading } = useQuery({
     queryKey: ["my-worksheets", user?.id],
@@ -101,6 +110,11 @@ function StudentDashboard() {
           ))}
         </div>
       </Card>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <StudentSessions />
+        <StudentAttendance />
+      </div>
     </div>
   );
 }
