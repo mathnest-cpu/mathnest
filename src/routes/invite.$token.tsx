@@ -47,7 +47,7 @@ function InvitePage() {
       <div className="w-full max-w-md">
         <Link to="/" className="mb-6 flex items-center justify-center gap-2">
           <div className="grid h-10 w-10 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground font-bold shadow-[var(--shadow-soft)]">
-            N
+            M
           </div>
           <span className="text-xl font-semibold">MathNest</span>
         </Link>

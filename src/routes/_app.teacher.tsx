@@ -183,10 +183,11 @@ function InvitesPanel() {
   const createInvite = useMutation({
     mutationFn: async () => {
       if (!form.email) throw new Error("Email required");
+      const email = form.email.trim().toLowerCase();
       const { data, error } = await supabase
         .from("invites")
         .insert({
-          email: form.email.trim().toLowerCase(),
+          email,
           full_name: form.full_name || null,
           grade: Number(form.grade),
           country: form.country,
@@ -195,10 +196,20 @@ function InvitesPanel() {
         .select()
         .single();
       if (error) throw error;
+
+      // Send the password-setup email via Supabase admin invite.
+      const { sendStudentInvite } = await import("@/lib/invites.functions");
+      await sendStudentInvite({
+        data: {
+          email,
+          fullName: form.full_name || null,
+          redirectTo: `${window.location.origin}/reset-password`,
+        },
+      });
       return data;
     },
     onSuccess: () => {
-      toast.success("Invite created");
+      toast.success("Invite sent — student will receive a password setup email");
       setForm({ email: "", full_name: "", grade: "5", country: "India" });
       qc.invalidateQueries({ queryKey: ["invites"] });
       qc.invalidateQueries({ queryKey: ["teacher-overview"] });
@@ -237,7 +248,7 @@ function InvitesPanel() {
       <Card className="p-5">
         <h2 className="text-lg font-semibold">Send an invite</h2>
         <p className="text-sm text-muted-foreground">
-          The student must sign in with this exact Google email.
+          The student will receive an email with a link to set their password.
         </p>
         <div className="mt-4 space-y-3">
           <div>
