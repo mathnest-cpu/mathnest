@@ -30,7 +30,7 @@ function AppLayout() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
           <Link to="/dashboard" className="flex items-center gap-2">
             <div className="grid h-8 w-8 place-items-center rounded-lg bg-[image:var(--gradient-primary)] text-primary-foreground font-bold">
-              N
+              M
             </div>
             <span className="font-semibold">MathNest</span>
             {role && (

@@ -2,14 +2,18 @@ import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 
 export function GoogleSignInButton({ label = "Continue with Google" }: { label?: string }) {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handle = async () => {
     setLoading(true);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/dashboard`,
+      // Match docs canonical pattern — use the origin, not a sub-path. The
+      // landing/auth pages will route the user onward once the session is set.
+      redirect_uri: window.location.origin,
     });
     if (result.error) {
       toast.error("Sign-in failed", { description: result.error.message });
@@ -17,7 +21,10 @@ export function GoogleSignInButton({ label = "Continue with Google" }: { label?:
       return;
     }
     if (result.redirected) return;
-    window.location.href = "/dashboard";
+    // Session has been set in localStorage by lovable.auth — use a soft
+    // navigate so React state doesn't get torn down before the AuthProvider
+    // hydrates from the new session.
+    navigate({ to: "/dashboard", replace: true });
   };
 
   return (
