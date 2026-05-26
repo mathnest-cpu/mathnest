@@ -28,8 +28,8 @@ function Landing() {
             <div className="grid h-10 w-10 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground font-bold shadow-[var(--shadow-soft)] shrink-0">
               M
             </div>
-            <span className="text-sm font-medium leading-tight text-muted-foreground max-w-[280px]">
-              MathNest helps Nisha's students learn, practise and track progress from anywhere in the world. Worksheets, classes and attendance, all in one calm place.
+            <span className="text-sm leading-tight text-muted-foreground max-w-[280px] font-bold">
+              MathNest
             </span>
           </div>
           <nav className="flex items-center gap-2">
