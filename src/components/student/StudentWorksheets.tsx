@@ -69,8 +69,8 @@ export function StudentWorksheets() {
                 <span className="text-xs text-muted-foreground">Added {format(new Date(w.created_at), "MMM d, yyyy")}</span>
               </div>
             </div>
-            {w.drive_url && (
-              <Button size="sm" onClick={() => window.open(w.drive_url!, "_blank", "noopener,noreferrer")}>
+            {w.notion_url && (
+              <Button size="sm" onClick={() => window.open(w.notion_url!, "_blank", "noopener,noreferrer")}>
                 <ExternalLink className="mr-2 h-4 w-4" /> Open Worksheet
               </Button>
             )}
