@@ -1,0 +1,1 @@
+ALTER TABLE public.worksheets RENAME COLUMN drive_url TO notion_url;

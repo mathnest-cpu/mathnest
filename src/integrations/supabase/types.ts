@@ -225,10 +225,10 @@ export type Database = {
           assigned_grades: number[]
           created_at: string
           description: string | null
-          drive_url: string | null
           file_name: string | null
           grade: number | null
           id: string
+          notion_url: string | null
           storage_path: string | null
           title: string
           topic: string | null
@@ -238,10 +238,10 @@ export type Database = {
           assigned_grades?: number[]
           created_at?: string
           description?: string | null
-          drive_url?: string | null
           file_name?: string | null
           grade?: number | null
           id?: string
+          notion_url?: string | null
           storage_path?: string | null
           title: string
           topic?: string | null
@@ -251,10 +251,10 @@ export type Database = {
           assigned_grades?: number[]
           created_at?: string
           description?: string | null
-          drive_url?: string | null
           file_name?: string | null
           grade?: number | null
           id?: string
+          notion_url?: string | null
           storage_path?: string | null
           title?: string
           topic?: string | null
