@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "MathNest — Online Math Tuition for Grades 3–10" },
+      { title: "MathNest" },
       { name: "description", content: "Personal online math tuition for students worldwide. Worksheets, scheduled classes and progress tracking — all in one friendly place." },
     ],
   }),
