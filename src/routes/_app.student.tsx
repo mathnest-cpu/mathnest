@@ -7,6 +7,7 @@ import { Sparkles } from "lucide-react";
 import { StudentSessions } from "@/components/student/StudentSessions";
 import { StudentAttendance } from "@/components/student/StudentAttendance";
 import { StudentWorksheets } from "@/components/student/StudentWorksheets";
+import { StudentResultsSubmit } from "@/components/student/StudentResultsSubmit";
 
 export const Route = createFileRoute("/_app/student")({
   component: StudentDashboard,
@@ -54,6 +55,10 @@ function StudentDashboard() {
       </div>
 
       <StudentWorksheets />
+
+      <StudentResultsSubmit />
+
+
 
       <div className="grid gap-4 md:grid-cols-2">
         <StudentSessions />

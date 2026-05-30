@@ -74,7 +74,7 @@ export function WorksheetsPanel() {
   const create = useMutation({
     mutationFn: async () => {
       if (!form.title.trim()) throw new Error("Title is required");
-      if (!form.notion_url.trim()) throw new Error("Notion Page URL is required");
+      if (!form.notion_url.trim()) throw new Error("Worksheet URL is required");
       if (form.assigned_grades.length === 0) throw new Error("Assign at least one class");
       const { error } = await supabase.from("worksheets").insert({
         title: form.title.trim(),
@@ -103,7 +103,7 @@ export function WorksheetsPanel() {
     mutationFn: async () => {
       if (!editingId) return;
       if (!editForm.title.trim()) throw new Error("Title is required");
-      if (!editForm.notion_url.trim()) throw new Error("Notion Page URL is required");
+      if (!editForm.notion_url.trim()) throw new Error("Worksheet URL is required");
       if (editForm.assigned_grades.length === 0) throw new Error("Assign at least one class");
       const { error } = await supabase
         .from("worksheets")
@@ -181,7 +181,7 @@ export function WorksheetsPanel() {
     <div className="grid gap-6 lg:grid-cols-[420px_1fr]">
       <Card className="p-5">
         <h2 className="text-lg font-semibold">Add worksheet</h2>
-        <p className="text-sm text-muted-foreground">Paste a Notion page link and assign it to one or more classes.</p>
+        <p className="text-sm text-muted-foreground">Paste a worksheet link and assign it to one or more classes.</p>
         <div className="mt-4 space-y-3">
           <div>
             <Label>Worksheet title</Label>
@@ -192,9 +192,9 @@ export function WorksheetsPanel() {
             <Textarea rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Short note for students" />
           </div>
           <div>
-            <Label>Notion Page URL</Label>
+            <Label>Worksheet URL (GitHub Pages)</Label>
             <div className="flex gap-2">
-              <Input value={form.notion_url} onChange={(e) => setForm({ ...form, notion_url: e.target.value })} placeholder="https://www.notion.so/..." />
+              <Input value={form.notion_url} onChange={(e) => setForm({ ...form, notion_url: e.target.value })} placeholder="https://yourusername.github.io/mathnest-worksheets/" />
               <Button type="button" variant="outline" onClick={() => testLink(form.notion_url)}>Test</Button>
             </div>
           </div>
@@ -289,9 +289,9 @@ export function WorksheetsPanel() {
               <Textarea rows={2} value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} />
             </div>
             <div>
-              <Label>Notion Page URL</Label>
+              <Label>Worksheet URL (GitHub Pages)</Label>
               <div className="flex gap-2">
-                <Input value={editForm.notion_url} onChange={(e) => setEditForm({ ...editForm, notion_url: e.target.value })} />
+                <Input value={editForm.notion_url} onChange={(e) => setEditForm({ ...editForm, notion_url: e.target.value })} placeholder="https://yourusername.github.io/mathnest-worksheets/" />
                 <Button type="button" variant="outline" onClick={() => testLink(editForm.notion_url)}>Test</Button>
               </div>
             </div>

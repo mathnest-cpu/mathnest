@@ -164,6 +164,51 @@ export type Database = {
         }
         Relationships: []
       }
+      student_results: {
+        Row: {
+          drive_url: string
+          id: string
+          student_id: string
+          student_name: string | null
+          submitted_at: string
+          worksheet_id: string
+          worksheet_title: string | null
+        }
+        Insert: {
+          drive_url: string
+          id?: string
+          student_id: string
+          student_name?: string | null
+          submitted_at?: string
+          worksheet_id: string
+          worksheet_title?: string | null
+        }
+        Update: {
+          drive_url?: string
+          id?: string
+          student_id?: string
+          student_name?: string | null
+          submitted_at?: string
+          worksheet_id?: string
+          worksheet_title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_results_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_results_worksheet_id_fkey"
+            columns: ["worksheet_id"]
+            isOneToOne: false
+            referencedRelation: "worksheets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string

@@ -71,7 +71,7 @@ export function StudentWorksheets() {
             </div>
             {w.notion_url && (
               <Button size="sm" onClick={() => window.open(w.notion_url!, "_blank", "noopener,noreferrer")}>
-                <ExternalLink className="mr-2 h-4 w-4" /> Open in Notion
+                <ExternalLink className="mr-2 h-4 w-4" /> Open Worksheet
               </Button>
             )}
           </div>
