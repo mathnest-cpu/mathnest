@@ -74,7 +74,7 @@ export function WorksheetsPanel() {
   const create = useMutation({
     mutationFn: async () => {
       if (!form.title.trim()) throw new Error("Title is required");
-      if (!form.notion_url.trim()) throw new Error("Notion Page URL is required");
+      if (!form.notion_url.trim()) throw new Error("Worksheet URL is required");
       if (form.assigned_grades.length === 0) throw new Error("Assign at least one class");
       const { error } = await supabase.from("worksheets").insert({
         title: form.title.trim(),
