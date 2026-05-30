@@ -103,7 +103,7 @@ export function WorksheetsPanel() {
     mutationFn: async () => {
       if (!editingId) return;
       if (!editForm.title.trim()) throw new Error("Title is required");
-      if (!editForm.notion_url.trim()) throw new Error("Notion Page URL is required");
+      if (!editForm.notion_url.trim()) throw new Error("Worksheet URL is required");
       if (editForm.assigned_grades.length === 0) throw new Error("Assign at least one class");
       const { error } = await supabase
         .from("worksheets")
