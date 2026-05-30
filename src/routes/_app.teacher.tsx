@@ -11,11 +11,12 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-import { Copy, Mail, Users, FileText, Send, CalendarCheck, CalendarDays } from "lucide-react";
+import { Copy, Mail, Users, FileText, Send, CalendarCheck, CalendarDays, ClipboardCheck } from "lucide-react";
 import { format } from "date-fns";
 import { AttendancePanel } from "@/components/teacher/AttendancePanel";
 import { SessionsPanel } from "@/components/teacher/SessionsPanel";
 import { WorksheetsPanel } from "@/components/teacher/WorksheetsPanel";
+import { StudentResultsPanel } from "@/components/teacher/StudentResultsPanel";
 
 export const Route = createFileRoute("/_app/teacher")({
   component: TeacherDashboard,
