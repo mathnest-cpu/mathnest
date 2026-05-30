@@ -289,9 +289,9 @@ export function WorksheetsPanel() {
               <Textarea rows={2} value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} />
             </div>
             <div>
-              <Label>Notion Page URL</Label>
+              <Label>Worksheet URL (GitHub Pages)</Label>
               <div className="flex gap-2">
-                <Input value={editForm.notion_url} onChange={(e) => setEditForm({ ...editForm, notion_url: e.target.value })} />
+                <Input value={editForm.notion_url} onChange={(e) => setEditForm({ ...editForm, notion_url: e.target.value })} placeholder="https://yourusername.github.io/mathnest-worksheets/" />
                 <Button type="button" variant="outline" onClick={() => testLink(editForm.notion_url)}>Test</Button>
               </div>
             </div>
