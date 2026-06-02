@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Video } from "lucide-react";
 import { format } from "date-fns";
+import { safeHttpUrl } from "@/lib/safe-url";
 
 export function StudentSessions() {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
