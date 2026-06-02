@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { createRazorpayOrder, verifyRazorpayPayment } from "@/lib/razorpay.functions";
+
 
 declare global {
   interface Window {
@@ -51,6 +54,9 @@ export function RazorpayCheckoutButton({
 }: Props) {
   const [loading, setLoading] = useState(false);
 
+  const createOrder = useServerFn(createRazorpayOrder);
+  const verifyPayment = useServerFn(verifyRazorpayPayment);
+
   useEffect(() => {
     void loadScript();
   }, []);
@@ -64,22 +70,19 @@ export function RazorpayCheckoutButton({
         return;
       }
 
-      const orderRes = await fetch("/api/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, currency }),
-      });
-      if (!orderRes.ok) {
-        const err = await orderRes.json().catch(() => ({}));
-        toast.error(err.error ?? "Failed to start payment.");
-        return;
-      }
-      const order = (await orderRes.json()) as {
+      let order: {
         order_id: string;
         amount: number;
         currency: string;
         key_id: string;
       };
+      try {
+        order = await createOrder({ data: { amount, currency: currency as "INR" } });
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "Failed to start payment.");
+        return;
+      }
+
 
       const rzp = new window.Razorpay({
         key: order.key_id,
@@ -99,24 +102,21 @@ export function RazorpayCheckoutButton({
           razorpay_payment_id: string;
           razorpay_signature: string;
         }) => {
-          const verifyRes = await fetch("/api/verify-payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(response),
-          });
-          const verify = (await verifyRes.json().catch(() => ({}))) as {
-            success?: boolean;
-            error?: string;
-          };
-          if (verifyRes.ok && verify.success) {
-            toast.success("Payment successful!");
-            onSuccess?.({
-              order_id: response.razorpay_order_id,
-              payment_id: response.razorpay_payment_id,
-            });
-          } else {
-            toast.error(verify.error ?? "Payment verification failed.");
+          try {
+            const verify = await verifyPayment({ data: response });
+            if (verify.success) {
+              toast.success("Payment successful!");
+              onSuccess?.({
+                order_id: response.razorpay_order_id,
+                payment_id: response.razorpay_payment_id,
+              });
+            } else {
+              toast.error("Payment verification failed.");
+            }
+          } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Payment verification failed.");
           }
+
         },
       });
 

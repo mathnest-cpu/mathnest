@@ -4,7 +4,6 @@ import type { Session, User } from "@supabase/supabase-js";
 
 export type Role = "teacher" | "student";
 
-const OWNER_EMAIL = "nisha.ssc.salhotra@gmail.com";
 
 interface AuthCtx {
   session: Session | null;
@@ -46,20 +45,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     setRoleLoading(true);
-    const userEmail = session.user.email?.toLowerCase();
     supabase
       .from("user_roles")
       .select("role")
       .eq("user_id", session.user.id)
       .maybeSingle()
       .then(({ data }) => {
-        if (userEmail === OWNER_EMAIL) {
-          setRole("teacher");
-        } else {
-          setRole((data?.role as Role) ?? null);
-        }
+        setRole((data?.role as Role) ?? null);
         setRoleLoading(false);
       });
+
   }, [session?.user?.id]);
 
   const loading = !initialized || roleLoading;
