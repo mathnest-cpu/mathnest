@@ -7,7 +7,6 @@ import { Sparkles } from "lucide-react";
 import { StudentSessions } from "@/components/student/StudentSessions";
 import { StudentAttendance } from "@/components/student/StudentAttendance";
 import { StudentWorksheets } from "@/components/student/StudentWorksheets";
-import { StudentResultsSubmit } from "@/components/student/StudentResultsSubmit";
 import { StudentMyResults } from "@/components/student/StudentMyResults";
 
 export const Route = createFileRoute("/_app/student")({
@@ -59,7 +58,6 @@ function StudentDashboard() {
 
       <StudentMyResults />
 
-      <StudentResultsSubmit />
 
 
 
