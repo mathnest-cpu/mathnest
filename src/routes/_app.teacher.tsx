@@ -51,7 +51,6 @@ function TeacherDashboard() {
           <TabsTrigger value="students"><Users className="mr-2 h-4 w-4" />Students</TabsTrigger>
           <TabsTrigger value="invites"><Mail className="mr-2 h-4 w-4" />Invites</TabsTrigger>
           <TabsTrigger value="worksheets"><FileText className="mr-2 h-4 w-4" />Worksheets</TabsTrigger>
-          <TabsTrigger value="results"><ClipboardCheck className="mr-2 h-4 w-4" />Results</TabsTrigger>
           <TabsTrigger value="worksheet-results"><ClipboardCheck className="mr-2 h-4 w-4" />Worksheet Scores</TabsTrigger>
           <TabsTrigger value="attendance"><CalendarCheck className="mr-2 h-4 w-4" />Attendance</TabsTrigger>
           <TabsTrigger value="sessions"><CalendarDays className="mr-2 h-4 w-4" />Sessions</TabsTrigger>
@@ -59,7 +58,6 @@ function TeacherDashboard() {
         <TabsContent value="students" className="mt-4"><StudentsPanel /></TabsContent>
         <TabsContent value="invites" className="mt-4"><InvitesPanel /></TabsContent>
         <TabsContent value="worksheets" className="mt-4"><WorksheetsPanel /></TabsContent>
-        <TabsContent value="results" className="mt-4"><StudentResultsPanel /></TabsContent>
         <TabsContent value="worksheet-results" className="mt-4"><WorksheetResultsPanel /></TabsContent>
         <TabsContent value="attendance" className="mt-4"><AttendancePanel /></TabsContent>
         <TabsContent value="sessions" className="mt-4"><SessionsPanel /></TabsContent>
