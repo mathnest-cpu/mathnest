@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { CalendarPlus, Trash2, Video } from "lucide-react";
+import { safeHttpUrl } from "@/lib/safe-url";
 
 const GRADES = [3, 4, 5, 6, 7, 8, 9, 10];
 
