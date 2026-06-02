@@ -102,24 +102,21 @@ export function RazorpayCheckoutButton({
           razorpay_payment_id: string;
           razorpay_signature: string;
         }) => {
-          const verifyRes = await fetch("/api/verify-payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(response),
-          });
-          const verify = (await verifyRes.json().catch(() => ({}))) as {
-            success?: boolean;
-            error?: string;
-          };
-          if (verifyRes.ok && verify.success) {
-            toast.success("Payment successful!");
-            onSuccess?.({
-              order_id: response.razorpay_order_id,
-              payment_id: response.razorpay_payment_id,
-            });
-          } else {
-            toast.error(verify.error ?? "Payment verification failed.");
+          try {
+            const verify = await verifyPayment({ data: response });
+            if (verify.success) {
+              toast.success("Payment successful!");
+              onSuccess?.({
+                order_id: response.razorpay_order_id,
+                payment_id: response.razorpay_payment_id,
+              });
+            } else {
+              toast.error("Payment verification failed.");
+            }
+          } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Payment verification failed.");
           }
+
         },
       });
 
