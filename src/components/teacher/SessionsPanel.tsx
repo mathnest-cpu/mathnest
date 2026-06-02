@@ -40,6 +40,7 @@ export function SessionsPanel() {
   const create = useMutation({
     mutationFn: async () => {
       if (!form.title) throw new Error("Title required");
+      if (form.meeting_url && !safeHttpUrl(form.meeting_url)) throw new Error("Meeting link must start with http(s)://");
       const starts = new Date(form.starts_at);
       const ends = new Date(starts.getTime() + Number(form.duration) * 60_000);
       const { error } = await supabase.from("sessions").insert({
