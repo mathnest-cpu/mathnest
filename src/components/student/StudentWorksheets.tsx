@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, ExternalLink, Search } from "lucide-react";
 import { format } from "date-fns";
+import { safeHttpUrl } from "@/lib/safe-url";
 
 export function StudentWorksheets() {
   const { user } = useAuth();
