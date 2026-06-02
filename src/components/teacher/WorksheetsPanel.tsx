@@ -29,6 +29,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Copy, ExternalLink, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { format } from "date-fns";
+import { safeHttpUrl } from "@/lib/safe-url";
 
 const GRADES = [3, 4, 5, 6, 7, 8, 9, 10];
 const classLabel = (g: number) => `Class ${g}`;
