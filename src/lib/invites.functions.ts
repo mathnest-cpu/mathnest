@@ -19,6 +19,21 @@ export const sendStudentInvite = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
 
+    // Restrict redirectTo to the app's own origin to prevent the invite
+    // email from carrying a link to an attacker-controlled site.
+    const siteUrl = process.env.SITE_URL ?? process.env.VITE_SITE_URL;
+    if (siteUrl) {
+      try {
+        const allowed = new URL(siteUrl).origin;
+        const target = new URL(data.redirectTo).origin;
+        if (target !== allowed) {
+          throw new Error("redirectTo must match the app origin");
+        }
+      } catch {
+        throw new Error("Invalid redirectTo");
+      }
+    }
+
     // Verify the caller is a teacher (RLS-respecting client).
     const { data: roleRow, error: roleErr } = await supabase
       .from("user_roles")
