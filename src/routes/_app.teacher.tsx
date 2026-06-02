@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { AttendancePanel } from "@/components/teacher/AttendancePanel";
 import { SessionsPanel } from "@/components/teacher/SessionsPanel";
 import { WorksheetsPanel } from "@/components/teacher/WorksheetsPanel";
-import { StudentResultsPanel } from "@/components/teacher/StudentResultsPanel";
+
 import { WorksheetResultsPanel } from "@/components/teacher/WorksheetResultsPanel";
 
 export const Route = createFileRoute("/_app/teacher")({
