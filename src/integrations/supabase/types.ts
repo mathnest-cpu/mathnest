@@ -265,6 +265,42 @@ export type Database = {
           },
         ]
       }
+      worksheet_results: {
+        Row: {
+          completed_at: string
+          id: string
+          percentage: number
+          score: number
+          student_email: string
+          student_name: string
+          total_questions: number
+          worksheet_class: string
+          worksheet_title: string
+        }
+        Insert: {
+          completed_at?: string
+          id?: string
+          percentage: number
+          score: number
+          student_email: string
+          student_name: string
+          total_questions: number
+          worksheet_class: string
+          worksheet_title: string
+        }
+        Update: {
+          completed_at?: string
+          id?: string
+          percentage?: number
+          score?: number
+          student_email?: string
+          student_name?: string
+          total_questions?: number
+          worksheet_class?: string
+          worksheet_title?: string
+        }
+        Relationships: []
+      }
       worksheets: {
         Row: {
           assigned_grades: number[]
