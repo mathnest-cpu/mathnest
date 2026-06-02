@@ -54,6 +54,9 @@ export function RazorpayCheckoutButton({
 }: Props) {
   const [loading, setLoading] = useState(false);
 
+  const createOrder = useServerFn(createRazorpayOrder);
+  const verifyPayment = useServerFn(verifyRazorpayPayment);
+
   useEffect(() => {
     void loadScript();
   }, []);
@@ -67,22 +70,19 @@ export function RazorpayCheckoutButton({
         return;
       }
 
-      const orderRes = await fetch("/api/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, currency }),
-      });
-      if (!orderRes.ok) {
-        const err = await orderRes.json().catch(() => ({}));
-        toast.error(err.error ?? "Failed to start payment.");
-        return;
-      }
-      const order = (await orderRes.json()) as {
+      let order: {
         order_id: string;
         amount: number;
         currency: string;
         key_id: string;
       };
+      try {
+        order = await createOrder({ data: { amount, currency: currency as "INR" } });
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "Failed to start payment.");
+        return;
+      }
+
 
       const rzp = new window.Razorpay({
         key: order.key_id,
