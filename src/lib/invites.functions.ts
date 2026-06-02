@@ -22,17 +22,23 @@ export const sendStudentInvite = createServerFn({ method: "POST" })
 
     // Restrict redirectTo to the app's own origin to prevent the invite
     // email from carrying a link to an attacker-controlled site.
+    const allowedHosts = new Set<string>();
     const siteUrl = process.env.SITE_URL ?? process.env.VITE_SITE_URL;
     if (siteUrl) {
-      try {
-        const allowed = new URL(siteUrl).origin;
-        const target = new URL(data.redirectTo).origin;
-        if (target !== allowed) {
-          throw new Error("redirectTo must match the app origin");
-        }
-      } catch {
-        throw new Error("Invalid redirectTo");
-      }
+      try { allowedHosts.add(new URL(siteUrl).host); } catch { /* ignore */ }
+    }
+    try { allowedHosts.add(getRequestHost()); } catch { /* ignore */ }
+    const originHeader = getRequestHeader("origin");
+    if (originHeader) {
+      try { allowedHosts.add(new URL(originHeader).host); } catch { /* ignore */ }
+    }
+    let parsedRedirect: URL;
+    try { parsedRedirect = new URL(data.redirectTo); } catch { throw new Error("Invalid redirectTo"); }
+    if (parsedRedirect.protocol !== "https:" && parsedRedirect.protocol !== "http:") {
+      throw new Error("Invalid redirectTo");
+    }
+    if (allowedHosts.size > 0 && !allowedHosts.has(parsedRedirect.host)) {
+      throw new Error("redirectTo must match the app origin");
     }
 
     // Verify the caller is a teacher (RLS-respecting client).
