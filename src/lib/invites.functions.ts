@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestHost, getRequestHeader } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
@@ -18,6 +19,27 @@ export const sendStudentInvite = createServerFn({ method: "POST" })
   .inputValidator((input) => InviteSchema.parse(input))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+
+    // Restrict redirectTo to the app's own origin to prevent the invite
+    // email from carrying a link to an attacker-controlled site.
+    const allowedHosts = new Set<string>();
+    const siteUrl = process.env.SITE_URL ?? process.env.VITE_SITE_URL;
+    if (siteUrl) {
+      try { allowedHosts.add(new URL(siteUrl).host); } catch { /* ignore */ }
+    }
+    try { allowedHosts.add(getRequestHost()); } catch { /* ignore */ }
+    const originHeader = getRequestHeader("origin");
+    if (originHeader) {
+      try { allowedHosts.add(new URL(originHeader).host); } catch { /* ignore */ }
+    }
+    let parsedRedirect: URL;
+    try { parsedRedirect = new URL(data.redirectTo); } catch { throw new Error("Invalid redirectTo"); }
+    if (parsedRedirect.protocol !== "https:" && parsedRedirect.protocol !== "http:") {
+      throw new Error("Invalid redirectTo");
+    }
+    if (allowedHosts.size > 0 && !allowedHosts.has(parsedRedirect.host)) {
+      throw new Error("redirectTo must match the app origin");
+    }
 
     // Verify the caller is a teacher (RLS-respecting client).
     const { data: roleRow, error: roleErr } = await supabase

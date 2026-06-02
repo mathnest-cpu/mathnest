@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { CalendarPlus, Trash2, Video } from "lucide-react";
+import { safeHttpUrl } from "@/lib/safe-url";
 
 const GRADES = [3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -39,6 +40,7 @@ export function SessionsPanel() {
   const create = useMutation({
     mutationFn: async () => {
       if (!form.title) throw new Error("Title required");
+      if (form.meeting_url && !safeHttpUrl(form.meeting_url)) throw new Error("Meeting link must start with http(s)://");
       const starts = new Date(form.starts_at);
       const ends = new Date(starts.getTime() + Number(form.duration) * 60_000);
       const { error } = await supabase.from("sessions").insert({
@@ -142,11 +144,14 @@ export function SessionsPanel() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  {s.meeting_url && (
-                    <Button asChild size="sm" variant="outline">
-                      <a href={s.meeting_url} target="_blank" rel="noreferrer"><Video className="mr-1 h-4 w-4" />Join</a>
-                    </Button>
-                  )}
+                  {(() => {
+                    const safe = safeHttpUrl(s.meeting_url);
+                    return safe ? (
+                      <Button asChild size="sm" variant="outline">
+                        <a href={safe} target="_blank" rel="noreferrer"><Video className="mr-1 h-4 w-4" />Join</a>
+                      </Button>
+                    ) : null;
+                  })()}
                   <Button size="icon" variant="ghost" onClick={() => remove.mutate(s.id)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>

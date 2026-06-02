@@ -29,6 +29,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Copy, ExternalLink, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { format } from "date-fns";
+import { safeHttpUrl } from "@/lib/safe-url";
 
 const GRADES = [3, 4, 5, 6, 7, 8, 9, 10];
 const classLabel = (g: number) => `Class ${g}`;
@@ -75,6 +76,7 @@ export function WorksheetsPanel() {
     mutationFn: async () => {
       if (!form.title.trim()) throw new Error("Title is required");
       if (!form.notion_url.trim()) throw new Error("Worksheet URL is required");
+      if (!safeHttpUrl(form.notion_url.trim())) throw new Error("Worksheet URL must start with http(s)://");
       if (form.assigned_grades.length === 0) throw new Error("Assign at least one class");
       const { error } = await supabase.from("worksheets").insert({
         title: form.title.trim(),
@@ -104,6 +106,7 @@ export function WorksheetsPanel() {
       if (!editingId) return;
       if (!editForm.title.trim()) throw new Error("Title is required");
       if (!editForm.notion_url.trim()) throw new Error("Worksheet URL is required");
+      if (!safeHttpUrl(editForm.notion_url.trim())) throw new Error("Worksheet URL must start with http(s)://");
       if (editForm.assigned_grades.length === 0) throw new Error("Assign at least one class");
       const { error } = await supabase
         .from("worksheets")
@@ -253,16 +256,19 @@ export function WorksheetsPanel() {
                   </div>
                 </div>
                 <div className="flex shrink-0 gap-1">
-                  {w.notion_url && (
-                    <>
-                      <Button size="sm" variant="outline" onClick={() => window.open(w.notion_url!, "_blank", "noopener,noreferrer")}>
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={() => copyLink(w.notion_url!)}>
-                        <Copy className="h-4 w-4" />
-                      </Button>
-                    </>
-                  )}
+                  {(() => {
+                    const safe = safeHttpUrl(w.notion_url);
+                    return safe ? (
+                      <>
+                        <Button size="sm" variant="outline" onClick={() => window.open(safe, "_blank", "noopener,noreferrer")}>
+                          <ExternalLink className="h-4 w-4" />
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => copyLink(safe)}>
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </>
+                    ) : null;
+                  })()}
                   <Button size="sm" variant="ghost" onClick={() => startEdit(w)}>
                     <Pencil className="h-4 w-4" />
                   </Button>
