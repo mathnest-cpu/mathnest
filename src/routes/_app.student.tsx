@@ -57,7 +57,10 @@ function StudentDashboard() {
 
       <StudentWorksheets />
 
+      <StudentMyResults />
+
       <StudentResultsSubmit />
+
 
 
 
