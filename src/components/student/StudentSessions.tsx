@@ -50,11 +50,14 @@ export function StudentSessions() {
                 </div>
                 {s.description && <div className="mt-1 text-sm">{s.description}</div>}
               </div>
-              {s.meeting_url && (
-                <Button asChild size="sm">
-                  <a href={s.meeting_url} target="_blank" rel="noreferrer"><Video className="mr-1 h-4 w-4" />Join</a>
-                </Button>
-              )}
+              {(() => {
+                const safe = safeHttpUrl(s.meeting_url);
+                return safe ? (
+                  <Button asChild size="sm">
+                    <a href={safe} target="_blank" rel="noreferrer"><Video className="mr-1 h-4 w-4" />Join</a>
+                  </Button>
+                ) : null;
+              })()}
             </div>
           );
         })}
