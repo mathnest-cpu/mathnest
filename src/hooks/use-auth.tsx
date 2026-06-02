@@ -4,7 +4,6 @@ import type { Session, User } from "@supabase/supabase-js";
 
 export type Role = "teacher" | "student";
 
-const OWNER_EMAIL = "nisha.ssc.salhotra@gmail.com";
 
 interface AuthCtx {
   session: Session | null;
