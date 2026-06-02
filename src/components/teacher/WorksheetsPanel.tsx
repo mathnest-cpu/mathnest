@@ -254,16 +254,19 @@ export function WorksheetsPanel() {
                   </div>
                 </div>
                 <div className="flex shrink-0 gap-1">
-                  {w.notion_url && (
-                    <>
-                      <Button size="sm" variant="outline" onClick={() => window.open(w.notion_url!, "_blank", "noopener,noreferrer")}>
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={() => copyLink(w.notion_url!)}>
-                        <Copy className="h-4 w-4" />
-                      </Button>
-                    </>
-                  )}
+                  {(() => {
+                    const safe = safeHttpUrl(w.notion_url);
+                    return safe ? (
+                      <>
+                        <Button size="sm" variant="outline" onClick={() => window.open(safe, "_blank", "noopener,noreferrer")}>
+                          <ExternalLink className="h-4 w-4" />
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => copyLink(safe)}>
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </>
+                    ) : null;
+                  })()}
                   <Button size="sm" variant="ghost" onClick={() => startEdit(w)}>
                     <Pencil className="h-4 w-4" />
                   </Button>
