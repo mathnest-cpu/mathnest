@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoogleSignInButton } from "@/components/GoogleSignInButton";
+import { AppleSignInButton } from "@/components/AppleSignInButton";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -36,8 +37,9 @@ function AuthPage() {
           <p className="mt-1 text-sm text-muted-foreground">
             Sign in to continue to MathNest.
           </p>
-          <div className="mt-6">
+          <div className="mt-6 space-y-2">
             <GoogleSignInButton />
+            <AppleSignInButton />
           </div>
           <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
             <div className="h-px flex-1 bg-border" />
