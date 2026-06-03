@@ -91,32 +91,44 @@ export type Database = {
       }
       profiles: {
         Row: {
+          billing_cycle_end: string | null
           country: string | null
           created_at: string
           email: string
           full_name: string | null
           grade: number | null
           id: string
+          plan: string
+          plan_status: string
+          subscription_id: string | null
           timezone: string | null
           updated_at: string
         }
         Insert: {
+          billing_cycle_end?: string | null
           country?: string | null
           created_at?: string
           email: string
           full_name?: string | null
           grade?: number | null
           id: string
+          plan?: string
+          plan_status?: string
+          subscription_id?: string | null
           timezone?: string | null
           updated_at?: string
         }
         Update: {
+          billing_cycle_end?: string | null
           country?: string | null
           created_at?: string
           email?: string
           full_name?: string | null
           grade?: number | null
           id?: string
+          plan?: string
+          plan_status?: string
+          subscription_id?: string | null
           timezone?: string | null
           updated_at?: string
         }
@@ -264,6 +276,7 @@ export type Database = {
           file_name: string | null
           grade: number | null
           id: string
+          is_free_tier: boolean
           notion_url: string | null
           storage_path: string | null
           title: string
@@ -277,6 +290,7 @@ export type Database = {
           file_name?: string | null
           grade?: number | null
           id?: string
+          is_free_tier?: boolean
           notion_url?: string | null
           storage_path?: string | null
           title: string
@@ -290,6 +304,7 @@ export type Database = {
           file_name?: string | null
           grade?: number | null
           id?: string
+          is_free_tier?: boolean
           notion_url?: string | null
           storage_path?: string | null
           title?: string
