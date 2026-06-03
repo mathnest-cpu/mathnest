@@ -50,6 +50,12 @@ function AppLayout() {
       <main className="mx-auto max-w-6xl px-6 py-8">
         <Outlet />
       </main>
+      <footer className="border-t bg-card/30">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 text-xs text-muted-foreground">
+          <span>© {new Date().getFullYear()} MathNest</span>
+          <Link to="/policy" className="hover:text-foreground">Cancellation & Refund Policy</Link>
+        </div>
+      </footer>
     </div>
   );
 }
