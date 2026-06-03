@@ -8,6 +8,7 @@ import { StudentSessions } from "@/components/student/StudentSessions";
 import { StudentAttendance } from "@/components/student/StudentAttendance";
 import { StudentWorksheets } from "@/components/student/StudentWorksheets";
 import { StudentMyResults } from "@/components/student/StudentMyResults";
+import { SubscriptionStatusBar } from "@/components/student/SubscriptionStatusBar";
 
 export const Route = createFileRoute("/_app/student")({
   component: StudentDashboard,
@@ -54,7 +55,11 @@ function StudentDashboard() {
         </p>
       </div>
 
+      <SubscriptionStatusBar />
+
       <StudentWorksheets />
+
+
 
       <StudentMyResults />
 
