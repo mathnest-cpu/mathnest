@@ -11,11 +11,12 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-import { Copy, Mail, Users, FileText, Send, CalendarCheck, CalendarDays, ClipboardCheck } from "lucide-react";
+import { Copy, Mail, Users, FileText, Send, CalendarCheck, CalendarDays, ClipboardCheck, CreditCard } from "lucide-react";
 import { format } from "date-fns";
 import { AttendancePanel } from "@/components/teacher/AttendancePanel";
 import { SessionsPanel } from "@/components/teacher/SessionsPanel";
 import { WorksheetsPanel } from "@/components/teacher/WorksheetsPanel";
+import { SubscriptionsPanel } from "@/components/teacher/SubscriptionsPanel";
 
 import { WorksheetResultsPanel } from "@/components/teacher/WorksheetResultsPanel";
 
@@ -52,6 +53,7 @@ function TeacherDashboard() {
           <TabsTrigger value="invites"><Mail className="mr-2 h-4 w-4" />Invites</TabsTrigger>
           <TabsTrigger value="worksheets"><FileText className="mr-2 h-4 w-4" />Worksheets</TabsTrigger>
           <TabsTrigger value="worksheet-results"><ClipboardCheck className="mr-2 h-4 w-4" />Worksheet Scores</TabsTrigger>
+          <TabsTrigger value="subscriptions"><CreditCard className="mr-2 h-4 w-4" />Subscriptions</TabsTrigger>
           <TabsTrigger value="attendance"><CalendarCheck className="mr-2 h-4 w-4" />Attendance</TabsTrigger>
           <TabsTrigger value="sessions"><CalendarDays className="mr-2 h-4 w-4" />Sessions</TabsTrigger>
         </TabsList>
@@ -59,6 +61,7 @@ function TeacherDashboard() {
         <TabsContent value="invites" className="mt-4"><InvitesPanel /></TabsContent>
         <TabsContent value="worksheets" className="mt-4"><WorksheetsPanel /></TabsContent>
         <TabsContent value="worksheet-results" className="mt-4"><WorksheetResultsPanel /></TabsContent>
+        <TabsContent value="subscriptions" className="mt-4"><SubscriptionsPanel /></TabsContent>
         <TabsContent value="attendance" className="mt-4"><AttendancePanel /></TabsContent>
         <TabsContent value="sessions" className="mt-4"><SessionsPanel /></TabsContent>
 

@@ -290,7 +290,7 @@ function Landing() {
         <div
           className="mx-auto max-w-6xl px-6 pb-8 text-center text-xs opacity-70 md:text-left"
         >
-          © {new Date().getFullYear()} MathNest
+          © {new Date().getFullYear()} MathNest · <Link to="/policy" className="underline hover:opacity-100">Cancellation & Refund Policy</Link>
         </div>
       </footer>
     </div>

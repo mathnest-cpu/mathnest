@@ -40,6 +40,7 @@ type WorksheetForm = {
   notion_url: string;
   topic: string;
   assigned_grades: number[];
+  is_free_tier: boolean;
 };
 
 const emptyForm: WorksheetForm = {
@@ -48,6 +49,7 @@ const emptyForm: WorksheetForm = {
   notion_url: "",
   topic: "",
   assigned_grades: [],
+  is_free_tier: false,
 };
 
 export function WorksheetsPanel() {
@@ -84,6 +86,7 @@ export function WorksheetsPanel() {
         notion_url: form.notion_url.trim(),
         topic: form.topic.trim() || null,
         assigned_grades: form.assigned_grades,
+        is_free_tier: form.is_free_tier,
         uploaded_by: user!.id,
         // legacy required-ish fields kept as placeholders
         storage_path: null,
@@ -116,6 +119,7 @@ export function WorksheetsPanel() {
           notion_url: editForm.notion_url.trim(),
           topic: editForm.topic.trim() || null,
           assigned_grades: editForm.assigned_grades,
+          is_free_tier: editForm.is_free_tier,
         })
         .eq("id", editingId);
       if (error) throw error;
@@ -177,6 +181,7 @@ export function WorksheetsPanel() {
       notion_url: w.notion_url ?? "",
       topic: w.topic ?? "",
       assigned_grades: w.assigned_grades ?? [],
+      is_free_tier: !!w.is_free_tier,
     });
   };
 
@@ -209,6 +214,10 @@ export function WorksheetsPanel() {
             <Label>Assign to classes</Label>
             <ClassPicker value={form.assigned_grades} onChange={(v) => setForm({ ...form, assigned_grades: v })} />
           </div>
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" checked={form.is_free_tier} onChange={(e) => setForm({ ...form, is_free_tier: e.target.checked })} />
+            Mark as free-tier worksheet (visible to free students)
+          </label>
           <Button className="w-full" disabled={create.isPending} onClick={() => create.mutate()}>
             <Plus className="mr-2 h-4 w-4" />
             {create.isPending ? "Adding…" : "Add worksheet"}
@@ -251,6 +260,7 @@ export function WorksheetsPanel() {
                     {(w.assigned_grades ?? []).map((g) => (
                       <Badge key={g} variant="secondary">{classLabel(g)}</Badge>
                     ))}
+                    {w.is_free_tier && <Badge className="bg-emerald-600 hover:bg-emerald-600">Free tier</Badge>}
                     {w.topic && <Badge variant="outline">{w.topic}</Badge>}
                     <span className="text-xs text-muted-foreground">· Added {format(new Date(w.created_at), "MMM d, yyyy")}</span>
                   </div>
@@ -309,6 +319,10 @@ export function WorksheetsPanel() {
               <Label>Assign to classes</Label>
               <ClassPicker value={editForm.assigned_grades} onChange={(v) => setEditForm({ ...editForm, assigned_grades: v })} />
             </div>
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={editForm.is_free_tier} onChange={(e) => setEditForm({ ...editForm, is_free_tier: e.target.checked })} />
+              Mark as free-tier worksheet (visible to free students)
+            </label>
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setEditingId(null)}>Cancel</Button>
