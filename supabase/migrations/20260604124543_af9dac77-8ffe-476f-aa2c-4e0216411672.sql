@@ -1,0 +1,4 @@
+CREATE POLICY "student_results_teacher_only_select" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'student-results' AND private.has_role(auth.uid(), 'teacher'::app_role));
+CREATE POLICY "student_results_teacher_only_insert" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'student-results' AND private.has_role(auth.uid(), 'teacher'::app_role));
+CREATE POLICY "student_results_teacher_only_update" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'student-results' AND private.has_role(auth.uid(), 'teacher'::app_role));
+CREATE POLICY "student_results_teacher_only_delete" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'student-results' AND private.has_role(auth.uid(), 'teacher'::app_role));
