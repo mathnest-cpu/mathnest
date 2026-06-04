@@ -221,6 +221,91 @@ function Landing() {
           </div>
         </section>
 
+        {/* Pricing */}
+        <section className="mx-auto max-w-6xl px-6 py-20 md:py-24" id="pricing">
+          <h2
+            className="text-center text-3xl md:text-4xl"
+            style={{ fontFamily: headingFont, fontWeight: 600, color: PALETTE.ink }}
+          >
+            Simple, Fair Pricing
+          </h2>
+          <p
+            className="mx-auto mt-3 max-w-2xl text-center text-base md:text-lg"
+            style={{ color: PALETTE.inkSoft }}
+          >
+            Start free with a sample worksheet. Upgrade anytime for full access.
+          </p>
+          <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
+            {[
+              {
+                name: "Free",
+                price: "₹0",
+                cadence: "forever",
+                features: [
+                  "Access to Worksheet 01",
+                  "View scheduled sessions",
+                  "Track attendance",
+                ],
+                cta: "Get Started",
+                highlight: false,
+              },
+              {
+                name: "Paid",
+                price: "₹299",
+                cadence: "per month",
+                features: [
+                  "Access to ALL worksheets",
+                  "Cancel anytime — access until cycle ends",
+                  "Priority support",
+                ],
+                cta: "Upgrade After Sign-in",
+                highlight: true,
+              },
+            ].map((plan) => (
+              <div
+                key={plan.name}
+                className="rounded-3xl p-8"
+                style={{
+                  background: plan.highlight ? PALETTE.sageDeep : "#ffffff",
+                  color: plan.highlight ? PALETTE.cream : PALETTE.ink,
+                  border: `1px solid ${PALETTE.sageMist}`,
+                  boxShadow: plan.highlight
+                    ? "0 12px 32px -16px rgba(125, 155, 118, 0.55)"
+                    : "0 4px 18px -10px rgba(125, 155, 118, 0.25)",
+                }}
+              >
+                <div className="text-sm font-semibold uppercase tracking-wider" style={{ opacity: 0.85 }}>
+                  {plan.name}
+                </div>
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="text-4xl md:text-5xl" style={{ fontFamily: headingFont, fontWeight: 600 }}>
+                    {plan.price}
+                  </span>
+                  <span className="text-sm opacity-80">{plan.cadence}</span>
+                </div>
+                <ul className="mt-6 space-y-2 text-base">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2">
+                      <span aria-hidden>✓</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/auth"
+                  className="mt-8 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+                  style={{
+                    background: plan.highlight ? PALETTE.cream : PALETTE.sageDeep,
+                    color: plan.highlight ? PALETTE.sageDeep : "#ffffff",
+                  }}
+                >
+                  {plan.cta}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Why MathNest */}
         <section className="mx-auto max-w-6xl px-6 py-20 md:py-24">
           <h2
