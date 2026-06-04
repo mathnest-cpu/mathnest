@@ -60,6 +60,8 @@ function StudentDashboard() {
 
       <StudentWorksheets />
 
+      <PlansComparison />
+
 
 
       <StudentMyResults />
