@@ -299,6 +299,35 @@ function InvitesPanel() {
               </Select>
             </div>
           </div>
+
+          <div className="rounded-md border border-dashed bg-muted/40 p-3 space-y-3">
+            <div>
+              <div className="text-sm font-semibold">Parent / Guardian Details — Required</div>
+              <div className="text-xs text-muted-foreground">Used to send score updates and 1:1 session requests.</div>
+            </div>
+            <div>
+              <Label htmlFor="pname">Parent full name *</Label>
+              <Input id="pname" value={form.parent_name} onChange={(e) => setForm({ ...form, parent_name: e.target.value })} required />
+            </div>
+            <div>
+              <Label htmlFor="pemail">Parent email *</Label>
+              <Input id="pemail" type="email" value={form.parent_email} onChange={(e) => setForm({ ...form, parent_email: e.target.value })} required />
+            </div>
+            <div>
+              <Label htmlFor="pphone">Parent phone *</Label>
+              <Input id="pphone" placeholder="+91 98765 43210" value={form.parent_phone} onChange={(e) => setForm({ ...form, parent_phone: e.target.value })} required />
+            </div>
+            <div>
+              <Label>Relationship *</Label>
+              <Select value={form.parent_relationship} onValueChange={(v) => setForm({ ...form, parent_relationship: v })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {["Father", "Mother", "Guardian", "Other"].map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
           <Button className="w-full" disabled={createInvite.isPending} onClick={() => createInvite.mutate()}>
             <Send className="mr-2 h-4 w-4" />
             {createInvite.isPending ? "Creating…" : "Create invite"}
