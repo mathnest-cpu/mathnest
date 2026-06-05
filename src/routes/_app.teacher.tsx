@@ -61,7 +61,7 @@ function TeacherDashboard() {
         <TabsContent value="students" className="mt-4"><StudentsPanel /></TabsContent>
         <TabsContent value="invites" className="mt-4"><InvitesPanel /></TabsContent>
         <TabsContent value="worksheets" className="mt-4"><WorksheetsPanel /></TabsContent>
-        <TabsContent value="worksheet-results" className="mt-4"><WorksheetResultsPanel /></TabsContent>
+        <TabsContent value="worksheet-results" className="mt-4 space-y-4"><FlaggedStudentsPanel /><WorksheetResultsPanel /></TabsContent>
         <TabsContent value="subscriptions" className="mt-4"><SubscriptionsPanel /></TabsContent>
         <TabsContent value="attendance" className="mt-4"><AttendancePanel /></TabsContent>
         <TabsContent value="sessions" className="mt-4"><SessionsPanel /></TabsContent>
