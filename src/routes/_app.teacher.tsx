@@ -19,6 +19,7 @@ import { WorksheetsPanel } from "@/components/teacher/WorksheetsPanel";
 import { SubscriptionsPanel } from "@/components/teacher/SubscriptionsPanel";
 
 import { WorksheetResultsPanel } from "@/components/teacher/WorksheetResultsPanel";
+import { FlaggedStudentsPanel } from "@/components/teacher/FlaggedStudentsPanel";
 
 export const Route = createFileRoute("/_app/teacher")({
   component: TeacherDashboard,
@@ -60,7 +61,7 @@ function TeacherDashboard() {
         <TabsContent value="students" className="mt-4"><StudentsPanel /></TabsContent>
         <TabsContent value="invites" className="mt-4"><InvitesPanel /></TabsContent>
         <TabsContent value="worksheets" className="mt-4"><WorksheetsPanel /></TabsContent>
-        <TabsContent value="worksheet-results" className="mt-4"><WorksheetResultsPanel /></TabsContent>
+        <TabsContent value="worksheet-results" className="mt-4 space-y-4"><FlaggedStudentsPanel /><WorksheetResultsPanel /></TabsContent>
         <TabsContent value="subscriptions" className="mt-4"><SubscriptionsPanel /></TabsContent>
         <TabsContent value="attendance" className="mt-4"><AttendancePanel /></TabsContent>
         <TabsContent value="sessions" className="mt-4"><SessionsPanel /></TabsContent>
@@ -174,7 +175,10 @@ function StudentsPanel() {
 function InvitesPanel() {
   const qc = useQueryClient();
   const { user } = useAuth();
-  const [form, setForm] = useState({ email: "", full_name: "", grade: "5", country: "India" });
+  const [form, setForm] = useState({
+    email: "", full_name: "", grade: "5", country: "India",
+    parent_name: "", parent_email: "", parent_phone: "", parent_relationship: "Mother",
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ["invites"],
@@ -190,7 +194,11 @@ function InvitesPanel() {
 
   const createInvite = useMutation({
     mutationFn: async () => {
-      if (!form.email) throw new Error("Email required");
+      if (!form.email) throw new Error("Student email required");
+      if (!form.parent_name.trim()) throw new Error("Parent name required");
+      if (!form.parent_email.trim()) throw new Error("Parent email required");
+      if (!form.parent_phone.trim()) throw new Error("Parent phone required");
+      if (!form.parent_relationship.trim()) throw new Error("Relationship required");
       const email = form.email.trim().toLowerCase();
       const { data, error } = await supabase
         .from("invites")
@@ -200,7 +208,11 @@ function InvitesPanel() {
           grade: Number(form.grade),
           country: form.country,
           invited_by: user!.id,
-        })
+          parent_name: form.parent_name.trim(),
+          parent_email: form.parent_email.trim().toLowerCase(),
+          parent_phone: form.parent_phone.trim(),
+          parent_relationship: form.parent_relationship,
+        } as any)
         .select()
         .single();
       if (error) throw error;
@@ -218,7 +230,7 @@ function InvitesPanel() {
     },
     onSuccess: () => {
       toast.success("Invite sent — student will receive a password setup email");
-      setForm({ email: "", full_name: "", grade: "5", country: "India" });
+      setForm({ email: "", full_name: "", grade: "5", country: "India", parent_name: "", parent_email: "", parent_phone: "", parent_relationship: "Mother" });
       qc.invalidateQueries({ queryKey: ["invites"] });
       qc.invalidateQueries({ queryKey: ["teacher-overview"] });
     },
@@ -288,6 +300,35 @@ function InvitesPanel() {
               </Select>
             </div>
           </div>
+
+          <div className="rounded-md border border-dashed bg-muted/40 p-3 space-y-3">
+            <div>
+              <div className="text-sm font-semibold">Parent / Guardian Details — Required</div>
+              <div className="text-xs text-muted-foreground">Used to send score updates and 1:1 session requests.</div>
+            </div>
+            <div>
+              <Label htmlFor="pname">Parent full name *</Label>
+              <Input id="pname" value={form.parent_name} onChange={(e) => setForm({ ...form, parent_name: e.target.value })} required />
+            </div>
+            <div>
+              <Label htmlFor="pemail">Parent email *</Label>
+              <Input id="pemail" type="email" value={form.parent_email} onChange={(e) => setForm({ ...form, parent_email: e.target.value })} required />
+            </div>
+            <div>
+              <Label htmlFor="pphone">Parent phone *</Label>
+              <Input id="pphone" placeholder="+91 98765 43210" value={form.parent_phone} onChange={(e) => setForm({ ...form, parent_phone: e.target.value })} required />
+            </div>
+            <div>
+              <Label>Relationship *</Label>
+              <Select value={form.parent_relationship} onValueChange={(v) => setForm({ ...form, parent_relationship: v })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {["Father", "Mother", "Guardian", "Other"].map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
           <Button className="w-full" disabled={createInvite.isPending} onClick={() => createInvite.mutate()}>
             <Send className="mr-2 h-4 w-4" />
             {createInvite.isPending ? "Creating…" : "Create invite"}

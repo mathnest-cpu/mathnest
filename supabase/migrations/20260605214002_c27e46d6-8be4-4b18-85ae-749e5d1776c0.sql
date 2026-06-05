@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.track_low_performance() FROM PUBLIC, anon, authenticated;
