@@ -68,7 +68,7 @@ export function FlaggedStudentsPanel() {
         .select("student_id,notification_type,sent_at")
         .gte("sent_at", since);
       if (error) throw error;
-      return (data ?? []) as Array<{ student_id: string; notification_type: string; sent_at: string }>;
+      return (data ?? []) as unknown as Array<{ student_id: string; notification_type: string; sent_at: string }>;
     },
     refetchInterval: 60_000,
   });
