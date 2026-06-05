@@ -46,7 +46,7 @@ export const listMyWorksheets = createServerFn({ method: "GET" })
       .select("worksheet_title, percentage, completed_at")
       .ilike("student_email", profile.email ?? "");
     const byTitle = new Map<string, number>();
-    for (const r of (results ?? []) as Array<{ worksheet_title: string; percentage: number }>) {
+    for (const r of (results ?? []) as unknown as Array<{ worksheet_title: string; percentage: number }>) {
       const existing = byTitle.get(r.worksheet_title);
       if (existing == null || r.percentage > existing) byTitle.set(r.worksheet_title, r.percentage);
     }
