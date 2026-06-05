@@ -19,6 +19,7 @@ import { WorksheetsPanel } from "@/components/teacher/WorksheetsPanel";
 import { SubscriptionsPanel } from "@/components/teacher/SubscriptionsPanel";
 
 import { WorksheetResultsPanel } from "@/components/teacher/WorksheetResultsPanel";
+import { FlaggedStudentsPanel } from "@/components/teacher/FlaggedStudentsPanel";
 
 export const Route = createFileRoute("/_app/teacher")({
   component: TeacherDashboard,
