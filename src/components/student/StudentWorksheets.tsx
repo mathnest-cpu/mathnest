@@ -60,12 +60,15 @@ export function StudentWorksheets() {
         ) : filtered.map((w) => {
           const safe = safeHttpUrl(w.notion_url);
           const locked = w.locked;
+          const completed = w.completed_percentage != null;
+          const lowScore = completed && (w.completed_percentage as number) < 80;
           return (
             <div
               key={w.id}
               className={
                 "rounded-xl border bg-card p-4 shadow-[var(--shadow-card)] transition-opacity " +
-                (locked ? "opacity-60" : "")
+                (locked ? "opacity-60 " : "") +
+                (lowScore ? "border-amber-300 bg-amber-50 dark:bg-amber-950/20 " : "")
               }
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -82,20 +85,37 @@ export function StudentWorksheets() {
                       <Badge variant={locked ? "outline" : "secondary"}>Paid</Badge>
                     )}
                     {w.topic && <Badge variant="secondary">{w.topic}</Badge>}
+                    {completed && (
+                      <Badge className="bg-emerald-600 hover:bg-emerald-600">Done · {w.completed_percentage}%</Badge>
+                    )}
+                    {lowScore && (
+                      <Badge className="bg-amber-500 hover:bg-amber-500">Review</Badge>
+                    )}
                     <span className="text-xs text-muted-foreground">Added {format(new Date(w.created_at), "MMM d, yyyy")}</span>
                   </div>
+                  {locked && w.lock_reason === "progress" && w.prev_title && (
+                    <div className="mt-2 text-xs text-muted-foreground">
+                      Complete <span className="font-medium">{w.prev_title}</span> to unlock
+                    </div>
+                  )}
                 </div>
                 {locked ? (
-                  <Button size="sm" variant="outline" onClick={() => setShowUpgradeFor(showUpgradeFor === w.id ? null : w.id)}>
-                    <Lock className="mr-2 h-4 w-4" /> Locked
-                  </Button>
+                  w.lock_reason === "paid" ? (
+                    <Button size="sm" variant="outline" onClick={() => setShowUpgradeFor(showUpgradeFor === w.id ? null : w.id)}>
+                      <Lock className="mr-2 h-4 w-4" /> Locked
+                    </Button>
+                  ) : (
+                    <Button size="sm" variant="outline" disabled>
+                      <Lock className="mr-2 h-4 w-4" /> Locked
+                    </Button>
+                  )
                 ) : safe ? (
                   <Button size="sm" onClick={() => window.open(safe, "_blank", "noopener,noreferrer")}>
-                    <ExternalLink className="mr-2 h-4 w-4" /> Open Worksheet
+                    <ExternalLink className="mr-2 h-4 w-4" /> {completed ? "Reopen" : "Open"}
                   </Button>
                 ) : null}
               </div>
-              {locked && showUpgradeFor === w.id && (
+              {locked && w.lock_reason === "paid" && showUpgradeFor === w.id && (
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm dark:border-amber-700/40 dark:bg-amber-950/30">
                   <span className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-amber-600" /> Upgrade to ₹299/month to unlock this worksheet.</span>
                   <SubscribeButton label="Upgrade" size="sm" />
