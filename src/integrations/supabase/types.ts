@@ -58,6 +58,10 @@ export type Database = {
           grade: number
           id: string
           invited_by: string
+          parent_email: string | null
+          parent_name: string | null
+          parent_phone: string | null
+          parent_relationship: string | null
           status: Database["public"]["Enums"]["invite_status"]
           token: string
         }
@@ -71,6 +75,10 @@ export type Database = {
           grade: number
           id?: string
           invited_by: string
+          parent_email?: string | null
+          parent_name?: string | null
+          parent_phone?: string | null
+          parent_relationship?: string | null
           status?: Database["public"]["Enums"]["invite_status"]
           token?: string
         }
@@ -84,8 +92,36 @@ export type Database = {
           grade?: number
           id?: string
           invited_by?: string
+          parent_email?: string | null
+          parent_name?: string | null
+          parent_phone?: string | null
+          parent_relationship?: string | null
           status?: Database["public"]["Enums"]["invite_status"]
           token?: string
+        }
+        Relationships: []
+      }
+      parent_notifications: {
+        Row: {
+          id: string
+          notification_type: string
+          sent_at: string
+          sent_by: string
+          student_id: string
+        }
+        Insert: {
+          id?: string
+          notification_type: string
+          sent_at?: string
+          sent_by: string
+          student_id: string
+        }
+        Update: {
+          id?: string
+          notification_type?: string
+          sent_at?: string
+          sent_by?: string
+          student_id?: string
         }
         Relationships: []
       }
@@ -98,6 +134,12 @@ export type Database = {
           full_name: string | null
           grade: number | null
           id: string
+          low_performance_count: number
+          parent_email: string | null
+          parent_name: string | null
+          parent_phone: string | null
+          parent_relationship: string | null
+          performance_flag: boolean
           plan: string
           plan_status: string
           subscription_id: string | null
@@ -112,6 +154,12 @@ export type Database = {
           full_name?: string | null
           grade?: number | null
           id: string
+          low_performance_count?: number
+          parent_email?: string | null
+          parent_name?: string | null
+          parent_phone?: string | null
+          parent_relationship?: string | null
+          performance_flag?: boolean
           plan?: string
           plan_status?: string
           subscription_id?: string | null
@@ -126,6 +174,12 @@ export type Database = {
           full_name?: string | null
           grade?: number | null
           id?: string
+          low_performance_count?: number
+          parent_email?: string | null
+          parent_name?: string | null
+          parent_phone?: string | null
+          parent_relationship?: string | null
+          performance_flag?: boolean
           plan?: string
           plan_status?: string
           subscription_id?: string | null
