@@ -174,7 +174,10 @@ function StudentsPanel() {
 function InvitesPanel() {
   const qc = useQueryClient();
   const { user } = useAuth();
-  const [form, setForm] = useState({ email: "", full_name: "", grade: "5", country: "India" });
+  const [form, setForm] = useState({
+    email: "", full_name: "", grade: "5", country: "India",
+    parent_name: "", parent_email: "", parent_phone: "", parent_relationship: "Mother",
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ["invites"],
@@ -190,7 +193,11 @@ function InvitesPanel() {
 
   const createInvite = useMutation({
     mutationFn: async () => {
-      if (!form.email) throw new Error("Email required");
+      if (!form.email) throw new Error("Student email required");
+      if (!form.parent_name.trim()) throw new Error("Parent name required");
+      if (!form.parent_email.trim()) throw new Error("Parent email required");
+      if (!form.parent_phone.trim()) throw new Error("Parent phone required");
+      if (!form.parent_relationship.trim()) throw new Error("Relationship required");
       const email = form.email.trim().toLowerCase();
       const { data, error } = await supabase
         .from("invites")
@@ -200,7 +207,11 @@ function InvitesPanel() {
           grade: Number(form.grade),
           country: form.country,
           invited_by: user!.id,
-        })
+          parent_name: form.parent_name.trim(),
+          parent_email: form.parent_email.trim().toLowerCase(),
+          parent_phone: form.parent_phone.trim(),
+          parent_relationship: form.parent_relationship,
+        } as any)
         .select()
         .single();
       if (error) throw error;
@@ -218,7 +229,7 @@ function InvitesPanel() {
     },
     onSuccess: () => {
       toast.success("Invite sent — student will receive a password setup email");
-      setForm({ email: "", full_name: "", grade: "5", country: "India" });
+      setForm({ email: "", full_name: "", grade: "5", country: "India", parent_name: "", parent_email: "", parent_phone: "", parent_relationship: "Mother" });
       qc.invalidateQueries({ queryKey: ["invites"] });
       qc.invalidateQueries({ queryKey: ["teacher-overview"] });
     },
