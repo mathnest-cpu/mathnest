@@ -293,6 +293,7 @@ export type Database = {
           percentage: number
           score: number
           student_email: string
+          student_id: string | null
           student_name: string
           total_questions: number
           worksheet_class: string
@@ -304,6 +305,7 @@ export type Database = {
           percentage: number
           score: number
           student_email: string
+          student_id?: string | null
           student_name: string
           total_questions: number
           worksheet_class: string
@@ -315,6 +317,7 @@ export type Database = {
           percentage?: number
           score?: number
           student_email?: string
+          student_id?: string | null
           student_name?: string
           total_questions?: number
           worksheet_class?: string
