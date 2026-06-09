@@ -8,14 +8,15 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "MathNest — Your math classes, organised in one place" },
+      { title: "MathNest — Interactive math worksheets for Class 3 to 10" },
       {
         name: "description",
         content:
-          "MathNest brings together sessions, worksheets, and attendance — built for global learners from Class 3 to Class 10.",
+          "Interactive math worksheets for Class 3 to Class 10 — auto-scored, progress-tracked, and built for students across India, US, UK, Canada and Australia.",
       },
     ],
   }),
+
 });
 
 const C = {
@@ -108,9 +109,10 @@ function Hero() {
             Your math classes, organised in one place
           </h1>
           <p className="mt-5 max-w-xl" style={{ color: C.greenLight, fontSize: 16, lineHeight: 1.6 }}>
-            MathNest brings together sessions, worksheets, and attendance — built for global learners
-            from Class 3 to Class 10.
+            Interactive math worksheets for Class 3 to Class 10 — auto-scored, progress-tracked,
+            and built for students across India, US, UK, Canada and Australia.
           </p>
+
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to="/auth"
@@ -202,19 +204,19 @@ function Features() {
         </h2>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           <FeatureCard
-            icon={<CalendarIcon />}
-            title="Scheduled sessions"
-            body="See every class on a clean calendar. Reminders so nobody misses a session."
-          />
-          <FeatureCard
             icon={<DocIcon />}
-            title="Worksheets on GitHub Pages"
-            body="Access curated worksheets instantly. Free students get a sample, paid get the full library."
+            title="Interactive Worksheets"
+            body="Engaging themed math worksheets for every class — from fun space adventures for Class 3 to real-world challenges for Class 10. Answer directly online, no printing needed."
           />
           <FeatureCard
             icon={<CheckIcon />}
-            title="Attendance tracking"
-            body="One-tap attendance per session. Parents and teachers always know who showed up."
+            title="Instant Score Feedback"
+            body="Every worksheet is auto-scored the moment it's submitted. See results immediately and track scores directly on your personal dashboard."
+          />
+          <FeatureCard
+            icon={<BoltIcon />}
+            title="Progress-Based Learning"
+            body="Unlock the next worksheet only after completing the previous one. Every step forward is earned — keeping learning structured and motivated."
           />
         </div>
       </div>
@@ -225,26 +227,15 @@ function Features() {
 function WhoFor() {
   return (
     <section style={{ background: C.page }} className="px-6 py-20">
-      <div className="mx-auto max-w-6xl">
-        <h2 className="text-center text-3xl md:text-4xl" style={{ color: C.text, fontWeight: 500 }}>
-          Who it's for
+      <div className="mx-auto max-w-3xl text-center">
+        <h2 className="text-3xl md:text-4xl" style={{ color: C.text, fontWeight: 500 }}>
+          Built for students who want to get better at maths
         </h2>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {[
-            { tag: "For Teachers", body: "Schedule classes, assign worksheets, track attendance, and message parents — all in one dashboard.", art: <TeacherArt /> },
-            { tag: "For Students", body: "See your sessions, open worksheets, and watch your scores climb week after week.", art: <StudentArt /> },
-          ].map((c) => (
-            <div
-              key={c.tag}
-              className="rounded-xl p-8"
-              style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12 }}
-            >
-              {c.art}
-              <h3 className="mt-6" style={{ color: C.text, fontSize: 20, fontWeight: 500 }}>{c.tag}</h3>
-              <p className="mt-3 text-base leading-relaxed" style={{ color: C.greenLight }}>{c.body}</p>
-            </div>
-          ))}
-        </div>
+        <p className="mt-6 text-base leading-relaxed" style={{ color: C.greenLight }}>
+          Log in, open your worksheet, answer questions online, and see your score instantly. Your
+          progress is tracked automatically — no paperwork, no confusion. Available for Class 3 to
+          Class 10 across India, US, UK, Canada and Australia.
+        </p>
       </div>
     </section>
   );
@@ -252,9 +243,9 @@ function WhoFor() {
 
 function WhyMathNest() {
   const items = [
-    { icon: <GlobeIcon />, head: "Built for 5 countries", body: "India · US · UK · Canada · Australia" },
-    { icon: <LockIcon />, head: "Invite-only access", body: "Your classroom stays private — no public sign-ups." },
-    { icon: <BoltIcon />, head: "Cancel anytime", body: "No lock-in. Keep access until the cycle ends." },
+    { icon: <GlobeIcon />, head: "5 countries, one platform", body: "Syllabus-aware worksheets for students across India, US, UK, Canada and Australia." },
+    { icon: <LockIcon />, head: "Invite-only access", body: "Every student joins by invite only — private, focused, and distraction-free." },
+    { icon: <ChartIcon />, head: "Scores that mean something", body: "Every submission is scored, tracked, and visible on your dashboard. Parents are notified when support is needed." },
   ];
   return (
     <section id="why" style={{ background: C.card }} className="px-6 py-20">
@@ -281,6 +272,7 @@ function WhyMathNest() {
     </section>
   );
 }
+
 
 function Footer() {
   return (
@@ -358,32 +350,17 @@ function BoltIcon() {
     </svg>
   );
 }
-function TeacherArt() {
+function ChartIcon() {
   return (
-    <svg viewBox="0 0 240 130" className="w-full max-w-xs" aria-hidden>
-      <rect x="6" y="6" width="228" height="118" rx="10" fill={C.page} stroke={C.border} />
-      <rect x="6" y="6" width="228" height="22" rx="10" fill={C.border} />
-      <rect x="18" y="40" width="60" height="36" rx="6" fill={C.green} opacity="0.85" />
-      <rect x="86" y="40" width="60" height="36" rx="6" fill={C.border} />
-      <rect x="154" y="40" width="72" height="36" rx="6" fill={C.border} />
-      <rect x="18" y="84" width="208" height="32" rx="6" fill={C.border} />
-      <polyline points="28,108 60,96 100,102 140,88 180,94 216,82" fill="none" stroke={C.greenMid} strokeWidth="2" />
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <path d="M4 28 H28" stroke={C.green} strokeWidth="2" strokeLinecap="round" />
+      <rect x="7" y="18" width="4" height="8" rx="1" fill={C.green} />
+      <rect x="14" y="12" width="4" height="14" rx="1" fill={C.green} />
+      <rect x="21" y="6" width="4" height="20" rx="1" fill={C.green} />
     </svg>
   );
 }
-function StudentArt() {
-  return (
-    <svg viewBox="0 0 240 130" className="w-full max-w-xs" aria-hidden>
-      <rect x="20" y="14" width="200" height="102" rx="10" fill={C.page} stroke={C.border} />
-      <rect x="34" y="30" width="80" height="10" rx="3" fill={C.greenLight} />
-      <rect x="34" y="48" width="172" height="6" rx="3" fill={C.border} />
-      <rect x="34" y="60" width="160" height="6" rx="3" fill={C.border} />
-      <rect x="34" y="72" width="120" height="6" rx="3" fill={C.border} />
-      <rect x="34" y="92" width="60" height="14" rx="4" fill={C.green} />
-      <rect x="104" y="92" width="40" height="14" rx="4" fill={C.border} />
-    </svg>
-  );
-}
+
 
 /* ---------- Live counter ---------- */
 function useLiveCounter() {

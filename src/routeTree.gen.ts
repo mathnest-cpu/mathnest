@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as AppTeacherRouteImport } from './routes/_app.teacher'
 import { Route as AppStudentRouteImport } from './routes/_app.student'
+import { Route as AppPlansRouteImport } from './routes/_app.plans'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as ApiPublicRazorpayWebhookRouteImport } from './routes/api/public/razorpay-webhook'
 
@@ -65,6 +66,11 @@ const AppStudentRoute = AppStudentRouteImport.update({
   path: '/student',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPlansRoute = AppPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/policy': typeof PolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AppDashboardRoute
+  '/plans': typeof AppPlansRoute
   '/student': typeof AppStudentRoute
   '/teacher': typeof AppTeacherRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/policy': typeof PolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AppDashboardRoute
+  '/plans': typeof AppPlansRoute
   '/student': typeof AppStudentRoute
   '/teacher': typeof AppTeacherRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/policy': typeof PolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/plans': typeof AppPlansRoute
   '/_app/student': typeof AppStudentRoute
   '/_app/teacher': typeof AppTeacherRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/policy'
     | '/reset-password'
     | '/dashboard'
+    | '/plans'
     | '/student'
     | '/teacher'
     | '/invite/$token'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/policy'
     | '/reset-password'
     | '/dashboard'
+    | '/plans'
     | '/student'
     | '/teacher'
     | '/invite/$token'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/policy'
     | '/reset-password'
     | '/_app/dashboard'
+    | '/_app/plans'
     | '/_app/student'
     | '/_app/teacher'
     | '/invite/$token'
@@ -231,6 +243,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppStudentRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/plans': {
+      id: '/_app/plans'
+      path: '/plans'
+      fullPath: '/plans'
+      preLoaderRoute: typeof AppPlansRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
@@ -250,12 +269,14 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
+  AppPlansRoute: typeof AppPlansRoute
   AppStudentRoute: typeof AppStudentRoute
   AppTeacherRoute: typeof AppTeacherRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
+  AppPlansRoute: AppPlansRoute,
   AppStudentRoute: AppStudentRoute,
   AppTeacherRoute: AppTeacherRoute,
 }
