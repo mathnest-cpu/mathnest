@@ -8,14 +8,15 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "MathNest — Your math classes, organised in one place" },
+      { title: "MathNest — Interactive math worksheets for Class 3 to 10" },
       {
         name: "description",
         content:
-          "MathNest brings together sessions, worksheets, and attendance — built for global learners from Class 3 to Class 10.",
+          "Interactive math worksheets for Class 3 to Class 10 — auto-scored, progress-tracked, and built for students across India, US, UK, Canada and Australia.",
       },
     ],
   }),
+
 });
 
 const C = {
