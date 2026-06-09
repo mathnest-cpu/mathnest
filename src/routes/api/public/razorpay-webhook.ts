@@ -23,20 +23,20 @@ type RzpPayload = {
   };
 };
 
-type SupabaseAdmin = Awaited<
-  ReturnType<typeof import("@/integrations/supabase/client.server")["supabaseAdmin"]["from"]>
-> extends never
-  ? never
-  : typeof import("@/integrations/supabase/client.server")["supabaseAdmin"];
+type ProfilePatch = {
+  plan?: "free" | "paid";
+  plan_status?: "active" | "lapsing";
+  subscription_id?: string | null;
+  billing_cycle_end?: string | null;
+};
 
 async function updateProfile(
-  admin: SupabaseAdmin,
+  admin: typeof import("@/integrations/supabase/client.server")["supabaseAdmin"],
   match: { userId?: string | null; email?: string | null; subscriptionId?: string | null },
-  patch: Record<string, unknown>,
+  patch: ProfilePatch,
   context: string,
 ): Promise<boolean> {
-  // Try by user_id first (from notes), then subscription_id, then email.
-  const attempts: Array<{ col: string; val: string }> = [];
+  const attempts: Array<{ col: "id" | "subscription_id" | "email"; val: string }> = [];
   if (match.userId) attempts.push({ col: "id", val: match.userId });
   if (match.subscriptionId) attempts.push({ col: "subscription_id", val: match.subscriptionId });
   if (match.email) attempts.push({ col: "email", val: match.email.toLowerCase() });
@@ -47,6 +47,7 @@ async function updateProfile(
       a.col === "email"
         ? await q.ilike(a.col, a.val).select("id")
         : await q.eq(a.col, a.val).select("id");
+
     if (error) {
       console.error(`[razorpay-webhook] ${context} update by ${a.col} failed:`, error.message);
       continue;
