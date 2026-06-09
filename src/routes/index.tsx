@@ -204,19 +204,19 @@ function Features() {
         </h2>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           <FeatureCard
-            icon={<CalendarIcon />}
-            title="Scheduled sessions"
-            body="See every class on a clean calendar. Reminders so nobody misses a session."
-          />
-          <FeatureCard
             icon={<DocIcon />}
-            title="Worksheets on GitHub Pages"
-            body="Access curated worksheets instantly. Free students get a sample, paid get the full library."
+            title="Interactive Worksheets"
+            body="Engaging themed math worksheets for every class — from fun space adventures for Class 3 to real-world challenges for Class 10. Answer directly online, no printing needed."
           />
           <FeatureCard
             icon={<CheckIcon />}
-            title="Attendance tracking"
-            body="One-tap attendance per session. Parents and teachers always know who showed up."
+            title="Instant Score Feedback"
+            body="Every worksheet is auto-scored the moment it's submitted. See results immediately and track scores directly on your personal dashboard."
+          />
+          <FeatureCard
+            icon={<BoltIcon />}
+            title="Progress-Based Learning"
+            body="Unlock the next worksheet only after completing the previous one. Every step forward is earned — keeping learning structured and motivated."
           />
         </div>
       </div>
@@ -227,26 +227,15 @@ function Features() {
 function WhoFor() {
   return (
     <section style={{ background: C.page }} className="px-6 py-20">
-      <div className="mx-auto max-w-6xl">
-        <h2 className="text-center text-3xl md:text-4xl" style={{ color: C.text, fontWeight: 500 }}>
-          Who it's for
+      <div className="mx-auto max-w-3xl text-center">
+        <h2 className="text-3xl md:text-4xl" style={{ color: C.text, fontWeight: 500 }}>
+          Built for students who want to get better at maths
         </h2>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {[
-            { tag: "For Teachers", body: "Schedule classes, assign worksheets, track attendance, and message parents — all in one dashboard.", art: <TeacherArt /> },
-            { tag: "For Students", body: "See your sessions, open worksheets, and watch your scores climb week after week.", art: <StudentArt /> },
-          ].map((c) => (
-            <div
-              key={c.tag}
-              className="rounded-xl p-8"
-              style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12 }}
-            >
-              {c.art}
-              <h3 className="mt-6" style={{ color: C.text, fontSize: 20, fontWeight: 500 }}>{c.tag}</h3>
-              <p className="mt-3 text-base leading-relaxed" style={{ color: C.greenLight }}>{c.body}</p>
-            </div>
-          ))}
-        </div>
+        <p className="mt-6 text-base leading-relaxed" style={{ color: C.greenLight }}>
+          Log in, open your worksheet, answer questions online, and see your score instantly. Your
+          progress is tracked automatically — no paperwork, no confusion. Available for Class 3 to
+          Class 10 across India, US, UK, Canada and Australia.
+        </p>
       </div>
     </section>
   );
@@ -254,9 +243,9 @@ function WhoFor() {
 
 function WhyMathNest() {
   const items = [
-    { icon: <GlobeIcon />, head: "Built for 5 countries", body: "India · US · UK · Canada · Australia" },
-    { icon: <LockIcon />, head: "Invite-only access", body: "Your classroom stays private — no public sign-ups." },
-    { icon: <BoltIcon />, head: "Cancel anytime", body: "No lock-in. Keep access until the cycle ends." },
+    { icon: <GlobeIcon />, head: "5 countries, one platform", body: "Syllabus-aware worksheets for students across India, US, UK, Canada and Australia." },
+    { icon: <LockIcon />, head: "Invite-only access", body: "Every student joins by invite only — private, focused, and distraction-free." },
+    { icon: <ChartIcon />, head: "Scores that mean something", body: "Every submission is scored, tracked, and visible on your dashboard. Parents are notified when support is needed." },
   ];
   return (
     <section id="why" style={{ background: C.card }} className="px-6 py-20">
@@ -283,6 +272,7 @@ function WhyMathNest() {
     </section>
   );
 }
+
 
 function Footer() {
   return (
