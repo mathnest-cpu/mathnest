@@ -9,7 +9,7 @@ import { StudentAttendance } from "@/components/student/StudentAttendance";
 import { StudentWorksheets } from "@/components/student/StudentWorksheets";
 import { StudentMyResults } from "@/components/student/StudentMyResults";
 import { SubscriptionStatusBar } from "@/components/student/SubscriptionStatusBar";
-import { PlansComparison } from "@/components/student/PlansComparison";
+
 
 export const Route = createFileRoute("/_app/student")({
   component: StudentDashboard,
