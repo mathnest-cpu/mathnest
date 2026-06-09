@@ -350,32 +350,17 @@ function BoltIcon() {
     </svg>
   );
 }
-function TeacherArt() {
+function ChartIcon() {
   return (
-    <svg viewBox="0 0 240 130" className="w-full max-w-xs" aria-hidden>
-      <rect x="6" y="6" width="228" height="118" rx="10" fill={C.page} stroke={C.border} />
-      <rect x="6" y="6" width="228" height="22" rx="10" fill={C.border} />
-      <rect x="18" y="40" width="60" height="36" rx="6" fill={C.green} opacity="0.85" />
-      <rect x="86" y="40" width="60" height="36" rx="6" fill={C.border} />
-      <rect x="154" y="40" width="72" height="36" rx="6" fill={C.border} />
-      <rect x="18" y="84" width="208" height="32" rx="6" fill={C.border} />
-      <polyline points="28,108 60,96 100,102 140,88 180,94 216,82" fill="none" stroke={C.greenMid} strokeWidth="2" />
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <path d="M4 28 H28" stroke={C.green} strokeWidth="2" strokeLinecap="round" />
+      <rect x="7" y="18" width="4" height="8" rx="1" fill={C.green} />
+      <rect x="14" y="12" width="4" height="14" rx="1" fill={C.green} />
+      <rect x="21" y="6" width="4" height="20" rx="1" fill={C.green} />
     </svg>
   );
 }
-function StudentArt() {
-  return (
-    <svg viewBox="0 0 240 130" className="w-full max-w-xs" aria-hidden>
-      <rect x="20" y="14" width="200" height="102" rx="10" fill={C.page} stroke={C.border} />
-      <rect x="34" y="30" width="80" height="10" rx="3" fill={C.greenLight} />
-      <rect x="34" y="48" width="172" height="6" rx="3" fill={C.border} />
-      <rect x="34" y="60" width="160" height="6" rx="3" fill={C.border} />
-      <rect x="34" y="72" width="120" height="6" rx="3" fill={C.border} />
-      <rect x="34" y="92" width="60" height="14" rx="4" fill={C.green} />
-      <rect x="104" y="92" width="40" height="14" rx="4" fill={C.border} />
-    </svg>
-  );
-}
+
 
 /* ---------- Live counter ---------- */
 function useLiveCounter() {
