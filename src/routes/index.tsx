@@ -109,9 +109,10 @@ function Hero() {
             Your math classes, organised in one place
           </h1>
           <p className="mt-5 max-w-xl" style={{ color: C.greenLight, fontSize: 16, lineHeight: 1.6 }}>
-            MathNest brings together sessions, worksheets, and attendance — built for global learners
-            from Class 3 to Class 10.
+            Interactive math worksheets for Class 3 to Class 10 — auto-scored, progress-tracked,
+            and built for students across India, US, UK, Canada and Australia.
           </p>
+
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to="/auth"
