@@ -1,11 +1,51 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { setStudentPlanManually } from "@/lib/teacher-subscription.functions";
+import { toast } from "sonner";
 import { format } from "date-fns";
 
+type StudentRow = {
+  id: string;
+  email: string | null;
+  full_name: string | null;
+  grade: number | null;
+  plan: string | null;
+  plan_status: string | null;
+  billing_cycle_end: string | null;
+  completed: number;
+  total: number;
+};
+
 export function SubscriptionsPanel() {
+  const qc = useQueryClient();
+  const setPlan = useServerFn(setStudentPlanManually);
+  const [editing, setEditing] = useState<StudentRow | null>(null);
+  const [plan, setPlan_] = useState<"paid" | "free">("paid");
+  const [months, setMonths] = useState<string>("1");
+
   const { data, isLoading } = useQuery({
     queryKey: ["teacher-subscriptions"],
     queryFn: async () => {
@@ -23,7 +63,6 @@ export function SubscriptionsPanel() {
       }
       const students = (profiles ?? []).filter((p) => studentIds.has(p.id));
 
-      // Worksheets-per-class for "X / total done"
       const { data: wsheets } = await supabase.from("worksheets").select("assigned_grades");
       const totalForGrade = (g: number | null) => {
         if (g == null) return 0;
@@ -34,9 +73,26 @@ export function SubscriptionsPanel() {
         ...s,
         completed: completedByEmail.get((s.email ?? "").toLowerCase()) ?? 0,
         total: totalForGrade(s.grade),
-      }));
+      })) as StudentRow[];
     },
   });
+
+  const mutate = useMutation({
+    mutationFn: async (args: { studentId: string; plan: "paid" | "free"; months: number }) =>
+      setPlan({ data: args }),
+    onSuccess: () => {
+      toast.success("Subscription updated");
+      qc.invalidateQueries({ queryKey: ["teacher-subscriptions"] });
+      setEditing(null);
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const openEdit = (s: StudentRow) => {
+    setEditing(s);
+    setPlan_(s.plan === "paid" ? "paid" : "free");
+    setMonths("1");
+  };
 
   const total = data?.length ?? 0;
   const paid = (data ?? []).filter((s) => s.plan === "paid").length;
@@ -52,6 +108,9 @@ export function SubscriptionsPanel() {
 
       <Card className="p-5">
         <h2 className="text-lg font-semibold">Subscriptions</h2>
+        <p className="text-sm text-muted-foreground">
+          Use "Manage" to mark a student as paid or free manually (for offline payments).
+        </p>
         <div className="mt-4 overflow-x-auto">
           <Table>
             <TableHeader>
@@ -62,13 +121,14 @@ export function SubscriptionsPanel() {
                 <TableHead>Next billing</TableHead>
                 <TableHead>Worksheets</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
-                <TableRow><TableCell colSpan={6}>Loading…</TableCell></TableRow>
+                <TableRow><TableCell colSpan={7}>Loading…</TableCell></TableRow>
               ) : (data?.length ?? 0) === 0 ? (
-                <TableRow><TableCell colSpan={6} className="text-muted-foreground">No students yet.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={7} className="text-muted-foreground">No students yet.</TableCell></TableRow>
               ) : data!.map((s) => {
                 const paidPlan = s.plan === "paid";
                 const lapsing = s.plan_status === "lapsing";
@@ -88,6 +148,11 @@ export function SubscriptionsPanel() {
                         : lapsing ? <Badge variant="outline">Lapsing</Badge>
                         : <Badge className="bg-emerald-600 hover:bg-emerald-600">Active</Badge>}
                     </TableCell>
+                    <TableCell className="text-right">
+                      <Button size="sm" variant="outline" onClick={() => openEdit(s)}>
+                        Manage
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -95,6 +160,59 @@ export function SubscriptionsPanel() {
           </Table>
         </div>
       </Card>
+
+      <Dialog open={!!editing} onOpenChange={(o) => !o && setEditing(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Manage subscription</DialogTitle>
+            <DialogDescription>
+              {editing?.full_name ?? editing?.email} — set the plan manually. This overrides
+              any Razorpay state for the chosen period.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Plan</Label>
+              <Select value={plan} onValueChange={(v) => setPlan_(v as "paid" | "free")}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="paid">Paid — grant worksheet access</SelectItem>
+                  <SelectItem value="free">Free — revoke paid access</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {plan === "paid" && (
+              <div>
+                <Label htmlFor="months">Access duration (months)</Label>
+                <Input
+                  id="months"
+                  type="number"
+                  min={1}
+                  max={36}
+                  value={months}
+                  onChange={(e) => setMonths(e.target.value)}
+                />
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Access ends after this many months from today.
+                </p>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setEditing(null)}>Cancel</Button>
+            <Button
+              disabled={mutate.isPending}
+              onClick={() => {
+                if (!editing) return;
+                const m = Math.max(1, Math.min(36, Number(months) || 1));
+                mutate.mutate({ studentId: editing.id, plan, months: m });
+              }}
+            >
+              {mutate.isPending ? "Saving…" : "Save"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
