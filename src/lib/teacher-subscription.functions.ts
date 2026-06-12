@@ -29,10 +29,13 @@ export const setStudentPlanManually = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
 
     // Authorize: caller must be a teacher
-    const { data: isTeacher, error: roleErr } = await supabase.rpc("has_role", {
-      _user_id: userId,
-      _role: "teacher",
-    });
+    const { data: isTeacher, error: roleErr } = await (supabase.rpc as unknown as (
+      fn: string,
+      args: Record<string, unknown>,
+    ) => Promise<{ data: boolean | null; error: { message: string } | null }>)(
+      "has_role",
+      { _user_id: userId, _role: "teacher" },
+    );
     if (roleErr) throw new Error(roleErr.message);
     if (!isTeacher) throw new Error("Forbidden");
 
