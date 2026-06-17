@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MathNest | Class 10 | Quadratic Equations | W2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f1117;--panel:#1a1d27;--border:rgba(255,255,255,0.08);
+  --accent:#6366f1;--accent2:#818cf8;--text:#e2e8f0;--muted:#94a3b8;
+  --easy:#3b82f6;--medium:#f59e0b;--advanced:#ef4444;
+  --green:#22c55e;--red:#ef4444;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.hidden{display:none!important}
+
+/* GATE */
+#gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.gate-box{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:2.5rem;max-width:480px;width:100%}
+.gate-logo{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.5rem;color:var(--accent);margin-bottom:.25rem}
+.gate-title{font-size:1.2rem;font-weight:700;margin-bottom:.25rem}
+.gate-meta{font-size:.85rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.6}
+.gate-meta span{display:inline-block;background:rgba(99,102,241,.15);color:var(--accent2);border-radius:6px;padding:2px 8px;margin:2px 2px 2px 0;font-size:.8rem}
+label{display:block;font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:.4rem;margin-top:1rem}
+input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;color:var(--text);font-size:.95rem;font-family:'Inter',sans-serif;outline:none;transition:border .2s}
+input:focus{border-color:var(--accent)}
+.gate-btn{width:100%;margin-top:1.5rem;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:.85rem;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+.gate-btn:hover{opacity:.88}
+.gate-err{color:var(--red);font-size:.83rem;margin-top:.5rem}
+
+/* WORKSHEET */
+#worksheet{max-width:900px;margin:0 auto;padding:2rem 1rem 4rem}
+.ws-header{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.ws-logo{font-family:'Nunito',sans-serif;font-weight:800;color:var(--accent);font-size:1.2rem}
+.ws-info{flex:1}
+.ws-title{font-weight:700;font-size:1rem}
+.ws-sub{font-size:.8rem;color:var(--muted)}
+.score-box{display:flex;align-items:center;gap:1.5rem;flex-shrink:0;flex-wrap:wrap}
+.score-stat{text-align:center}
+.score-num{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.4rem;color:var(--accent)}
+.score-lbl{font-size:.72rem;color:var(--muted)}
+.progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:1rem 1.5rem;margin-bottom:1.5rem}
+.progress-bar-bg{background:rgba(255,255,255,.07);border-radius:999px;height:8px;margin-top:.5rem}
+.progress-bar{background:linear-gradient(90deg,var(--accent),var(--accent2));height:8px;border-radius:999px;width:0%;transition:width .4s}
+.progress-txt{font-size:.82rem;color:var(--muted);display:flex;justify-content:space-between;margin-top:.3rem}
+
+.tier-banner{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.25rem;border-radius:10px;margin:1.75rem 0 1rem}
+.tier-banner.easy{background:rgba(59,130,246,.1);border-left:4px solid var(--easy)}
+.tier-banner.medium{background:rgba(245,158,11,.1);border-left:4px solid var(--medium)}
+.tier-banner.advanced{background:rgba(239,68,68,.1);border-left:4px solid var(--advanced)}
+.tier-icon{font-size:1.3rem}
+.tier-text strong{font-size:.95rem;font-weight:700}
+.tier-text span{font-size:.8rem;color:var(--muted);display:block}
+
+.q-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.q-head{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.9rem}
+.q-num{font-weight:700;font-size:.95rem;color:var(--muted);flex-shrink:0;padding-top:2px}
+.q-badge{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;margin-top:3px}
+.badge-easy{background:rgba(59,130,246,.2);color:#93c5fd}
+.badge-medium{background:rgba(245,158,11,.2);color:#fcd34d}
+.badge-advanced{background:rgba(239,68,68,.2);color:#fca5a5}
+.q-text{font-size:.95rem;line-height:1.6;flex:1}
+.q-marks{font-size:.75rem;color:var(--muted);margin-left:auto;flex-shrink:0;padding-top:3px}
+
+/* MCQ */
+.options{display:grid;gap:.5rem;margin-top:.25rem}
+.opt{display:flex;align-items:center;gap:.65rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.55rem .85rem;cursor:pointer;transition:all .2s;font-size:.9rem}
+.opt:hover{border-color:var(--accent);background:rgba(99,102,241,.08)}
+.opt.correct{background:rgba(34,197,94,.12);border-color:var(--green);color:#bbf7d0}
+.opt.wrong{background:rgba(239,68,68,.12);border-color:var(--red);color:#fca5a5}
+.opt.disabled{cursor:not-allowed;pointer-events:none}
+.opt-letter{font-weight:700;font-size:.78rem;color:var(--muted);background:rgba(255,255,255,.07);border-radius:5px;padding:1px 6px;flex-shrink:0}
+
+/* FIB */
+.fib-wrap{display:flex;gap:.6rem;align-items:center;margin-top:.5rem;flex-wrap:wrap}
+.fib-inp{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.5rem .85rem;color:var(--text);font-size:.95rem;font-family:'Inter',sans-serif;outline:none;min-width:140px;transition:border .2s}
+.fib-inp:focus{border-color:var(--accent)}
+.fib-inp.correct{border-color:var(--green);background:rgba(34,197,94,.1)}
+.fib-inp.wrong{border-color:var(--red);background:rgba(239,68,68,.1)}
+.fib-btn{background:var(--accent);border:none;border-radius:8px;color:#fff;padding:.5rem 1rem;font-size:.85rem;font-weight:600;cursor:pointer;transition:opacity .2s}
+.fib-btn:hover{opacity:.85}
+.fib-feedback{font-size:.83rem;margin-top:.4rem}
+.fib-feedback.correct{color:var(--green)}
+.fib-feedback.wrong{color:var(--red)}
+
+/* MATCH */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.5rem}
+.match-col{display:flex;flex-direction:column;gap:.4rem}
+.match-item{padding:.5rem .85rem;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.04);cursor:pointer;font-size:.88rem;transition:all .2s}
+.match-item:hover{border-color:var(--accent)}
+.match-item.selected{border-color:var(--accent);background:rgba(99,102,241,.15)}
+.match-item.matched-correct{border-color:var(--green);background:rgba(34,197,94,.1);pointer-events:none}
+.match-item.matched-wrong{border-color:var(--red);background:rgba(239,68,68,.1)}
+.match-item.disabled{pointer-events:none;opacity:.7}
+
+/* SUBMIT */
+.submit-area{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-top:2rem;text-align:center}
+.submit-note{font-size:.85rem;color:var(--muted);margin-bottom:1rem}
+.submit-btn{background:var(--accent);border:none;border-radius:10px;color:#fff;padding:.9rem 2.5rem;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+.submit-btn:hover{opacity:.88}
+.submit-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* RESULT */
+#result{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.result-box{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:2.5rem;max-width:560px;width:100%;text-align:center}
+.result-emoji{font-size:3.5rem;margin-bottom:.5rem}
+.result-band{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.6rem;margin-bottom:.25rem}
+.result-score{font-size:3rem;font-weight:800;color:var(--accent);font-family:'Nunito',sans-serif}
+.result-pct{font-size:.9rem;color:var(--muted);margin-bottom:1.25rem}
+.result-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin:1.25rem 0}
+.rb-card{background:rgba(255,255,255,.05);border-radius:10px;padding:.75rem;text-align:center}
+.rb-val{font-size:1.2rem;font-weight:700;font-family:'Nunito',sans-serif}
+.rb-lbl{font-size:.72rem;color:var(--muted)}
+.cert-btn{background:var(--accent);border:none;border-radius:10px;color:#fff;padding:.8rem 1.8rem;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:1rem;transition:opacity .2s}
+.cert-btn:hover{opacity:.88}
+
+/* CONFETTI */
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-logo">MathNest</div>
+    <div class="gate-title">Class 10 — Quadratic Equations</div>
+    <div class="gate-meta">
+      <span>Worksheet 2 of 10</span><span>NCERT/CBSE</span><span>Month 1</span><span>Textbook</span><br>
+      <span>7 Easy · 2 marks</span><span>7 Medium · 3 marks</span><span>6 Advanced · 3 marks</span><span>Total 50 marks</span>
+    </div>
+    <label>Full Name</label>
+    <input type="text" id="g-name" placeholder="Enter your name">
+    <label>Email Address</label>
+    <input type="email" id="g-email" placeholder="Enter your email">
+    <div class="gate-err hidden" id="gate-err">Please fill in both fields with a valid email.</div>
+    <button class="gate-btn" onclick="startWS()">Begin Worksheet</button>
+  </div>
+</div>
+
+<!-- WORKSHEET -->
+<div id="worksheet" class="hidden">
+  <div class="ws-header">
+    <div class="ws-logo">MathNest</div>
+    <div class="ws-info">
+      <div class="ws-title">Quadratic Equations — Textbook Practice</div>
+      <div class="ws-sub">Class 10 · NCERT/CBSE · India · Month 1 · W2</div>
+    </div>
+    <div class="score-box">
+      <div class="score-stat"><div class="score-num" id="live-score">0</div><div class="score-lbl">Score</div></div>
+      <div class="score-stat"><div class="score-num" id="q-done">0/20</div><div class="score-lbl">Answered</div></div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar-bg"><div class="progress-bar" id="prog-bar"></div></div>
+    <div class="progress-txt"><span>Progress</span><span id="prog-txt">0 of 20 questions answered</span></div>
+  </div>
+
+  <div id="questions-container"></div>
+
+  <div class="submit-area">
+    <div class="submit-note">Answer all questions before submitting. This action cannot be undone.</div>
+    <button class="submit-btn" id="submit-btn" onclick="submitWS()">Submit Worksheet</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="result" class="hidden">
+  <div class="result-box">
+    <div class="result-emoji" id="r-emoji"></div>
+    <div class="result-band" id="r-band"></div>
+    <div class="result-score" id="r-score"></div>
+    <div class="result-pct" id="r-pct"></div>
+    <div class="result-breakdown">
+      <div class="rb-card"><div class="rb-val" id="rb-easy" style="color:#93c5fd"></div><div class="rb-lbl">Easy (14)</div></div>
+      <div class="rb-card"><div class="rb-val" id="rb-med" style="color:#fcd34d"></div><div class="rb-lbl">Medium (21)</div></div>
+      <div class="rb-card"><div class="rb-val" id="rb-adv" style="color:#fca5a5"></div><div class="rb-lbl">Advanced (15)</div></div>
+    </div>
+    <button class="cert-btn" onclick="downloadCert()">⬇ Download Certificate</button>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_KEY = 'YOUR_ANON_KEY';
+const WS_ID = 'mn-c10-india-m1w2-quadratic';
+const WS_TITLE = 'Class 10 Quadratic Equations — Textbook W2';
+
+let studentName='', studentEmail='', submitted=false;
+let score=0, scoreEasy=0, scoreMed=0, scoreAdv=0;
+let answered=0;
+
+const questions=[
+  // ===== EASY (Q1–Q7) — 2 marks each =====
+  {id:1,tier:'easy',marks:2,type:'mcq',
+   text:'Which of the following is a quadratic equation?',
+   options:['x + 5 = 0','x² + 3x − 4 = 0','x³ − 2x = 0','1/x + 2 = 0'],
+   answer:1},
+  {id:2,tier:'easy',marks:2,type:'mcq',
+   text:'The standard form of a quadratic equation is:',
+   options:['ax + b = 0','ax² + bx + c = 0, a ≠ 0','ax³ + bx² + c = 0','bx + c = 0'],
+   answer:1},
+  {id:3,tier:'easy',marks:2,type:'fib',
+   text:'The roots of x² − 5x + 6 = 0 are ___ and ___. (Enter the sum of roots)',
+   answer:'5',altAnswers:['5.0']},
+  {id:4,tier:'easy',marks:2,type:'mcq',
+   text:'The discriminant of ax² + bx + c = 0 is:',
+   options:['b² + 4ac','b² − 4ac','4ac − b²','2b − 4ac'],
+   answer:1},
+  {id:5,tier:'easy',marks:2,type:'fib',
+   text:'If x² = 16, one positive value of x is ___.',
+   answer:'4',altAnswers:['4.0']},
+  {id:6,tier:'easy',marks:2,type:'mcq',
+   text:'The roots of x² − 4 = 0 are:',
+   options:['2 and 2','−2 and 2','−4 and 4','0 and 4'],
+   answer:1},
+  {id:7,tier:'easy',marks:2,type:'fib',
+   text:'The product of roots of x² − 7x + 10 = 0 is ___.',
+   answer:'10',altAnswers:['10.0']},
+
+  // ===== MEDIUM (Q8–Q14) — 3 marks each =====
+  {id:8,tier:'medium',marks:3,type:'mcq',
+   text:'If the discriminant of a quadratic equation is zero, the roots are:',
+   options:['Two distinct real roots','Two equal real roots','No real roots','Imaginary roots'],
+   answer:1},
+  {id:9,tier:'medium',marks:3,type:'fib',
+   text:'Solve x² + 5x + 6 = 0 by factorisation. Enter the smaller root.',
+   answer:'-3',altAnswers:['−3']},
+  {id:10,tier:'medium',marks:3,type:'mcq',
+   text:'Using the quadratic formula, the roots of 2x² − 5x + 2 = 0 are:',
+   options:['x = 2, x = 0.5','x = 2, x = −0.5','x = −2, x = 0.5','x = 1, x = 2'],
+   answer:0},
+  {id:11,tier:'medium',marks:3,type:'mcq',
+   text:'Which method can be used to solve x² + 8x + 16 = 0 most efficiently?',
+   options:['Quadratic formula only','Completing the square','Factorisation, since it is a perfect square','Graphical method only'],
+   answer:2},
+  {id:12,tier:'medium',marks:3,type:'fib',
+   text:'For the equation 3x² − 2x − 1 = 0, the value of the discriminant is ___.',
+   answer:'16',altAnswers:['16.0']},
+  {id:13,tier:'medium',marks:3,type:'mcq',
+   text:'If α and β are roots of x² − 3x + k = 0, and α + β = 3, what is the value of k?',
+   options:['Any value','k = −3','k can be any real number','Cannot determine'],
+   answer:2},
+  {id:14,tier:'medium',marks:3,type:'fib',
+   text:'Complete the square: x² + 6x + ___ = (x + 3)²',
+   answer:'9',altAnswers:['9.0']},
+
+  // ===== ADVANCED (Q15–Q20) — 3 marks each =====
+  {id:15,tier:'advanced',marks:3,type:'mcq',
+   text:'For what value of k does kx² + 2x − 3 = 0 have equal roots?',
+   options:['k = −1/3','k = 1/3','k = 3','k = −3'],
+   answer:0},
+  {id:16,tier:'advanced',marks:3,type:'fib',
+   text:'The sum of a number and its reciprocal is 10/3. The quadratic equation formed is 3x² − 10x + 3 = 0. Find the positive root (smaller positive value).',
+   answer:'1/3',altAnswers:['0.33','0.333']},
+  {id:17,tier:'advanced',marks:3,type:'mcq',
+   text:'A train travels 360 km at uniform speed. If speed were 5 km/h more, it would take 1 hour less. The speed (km/h) satisfies:',
+   options:['x² + 5x − 1800 = 0','x² + 5x + 1800 = 0','x(x+5) = 360','x² − 5x − 1800 = 0'],
+   answer:0},
+  {id:18,tier:'advanced',marks:3,type:'fib',
+   text:'If one root of 2x² + kx − 6 = 0 is 2, find k.',
+   answer:'1',altAnswers:['1.0']},
+  {id:19,tier:'advanced',marks:3,type:'mcq',
+   text:'Two consecutive positive integers whose product is 306 are:',
+   options:['17 and 18','16 and 17','18 and 19','15 and 16'],
+   answer:0},
+  {id:20,tier:'advanced',marks:3,type:'mcq',
+   text:'Which statement is true about the equation x² + 1 = 0?',
+   options:['It has two real roots','It has one real root','It has no real roots','Its roots are x = 1 and x = −1'],
+   answer:2},
+];
+
+function startWS(){
+  const n=document.getElementById('g-name').value.trim();
+  const e=document.getElementById('g-email').value.trim();
+  const err=document.getElementById('gate-err');
+  if(!n||!e||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){err.classList.remove('hidden');return;}
+  studentName=n;studentEmail=e;
+  err.classList.add('hidden');
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('worksheet').classList.remove('hidden');
+  renderQuestions();
+}
+
+function renderQuestions(){
+  const c=document.getElementById('questions-container');
+  let html='';
+  const tiers=[{key:'easy',label:'Section A — Easy',sub:'7 questions · 2 marks each',cls:'easy',ico:'🟢'},
+               {key:'medium',label:'Section B — Medium',sub:'7 questions · 3 marks each',cls:'medium',ico:'🟡'},
+               {key:'advanced',label:'Section C — Advanced',sub:'6 questions · 3 marks each',cls:'advanced',ico:'🔴'}];
+  let qIdx=0;
+  tiers.forEach(t=>{
+    html+=`<div class="tier-banner ${t.cls}"><div class="tier-icon">${t.ico}</div><div class="tier-text"><strong>${t.label}</strong><span>${t.sub}</span></div></div>`;
+    questions.filter(q=>q.tier===t.key).forEach(q=>{
+      qIdx++;
+      html+=renderQ(q,qIdx);
+    });
+  });
+  c.innerHTML=html;
+}
+
+function renderQ(q,n){
+  const badge=q.tier==='easy'?'badge-easy':q.tier==='medium'?'badge-medium':'badge-advanced';
+  const bLabel=q.tier==='easy'?'Easy':q.tier==='medium'?'Medium':'Advanced';
+  let body='';
+  if(q.type==='mcq'){
+    const letters=['A','B','C','D'];
+    body='<div class="options">'+q.options.map((o,i)=>`<div class="opt" id="opt-${q.id}-${i}" onclick="selectMCQ(${q.id},${i})"><span class="opt-letter">${letters[i]}</span>${o}</div>`).join('')+'</div>';
+  } else if(q.type==='fib'){
+    body=`<div class="fib-wrap"><input class="fib-inp" id="fib-${q.id}" placeholder="Your answer" /><button class="fib-btn" id="fib-btn-${q.id}" onclick="checkFIB(${q.id})">Check</button></div><div class="fib-feedback hidden" id="fib-fb-${q.id}"></div>`;
+  } else if(q.type==='match'){
+    body=renderMatch(q);
+  }
+  return `<div class="q-card" id="q-${q.id}">
+    <div class="q-head">
+      <span class="q-num">Q${n}.</span>
+      <span class="q-badge ${badge}">${bLabel}</span>
+      <span class="q-text">${q.text}</span>
+      <span class="q-marks">${q.marks}m</span>
+    </div>
+    ${body}
+  </div>`;
+}
+
+function renderMatch(q){
+  let l='',r='';
+  q.pairs.forEach((p,i)=>{l+=`<div class="match-item" id="ml-${q.id}-${i}" onclick="selectMatch(${q.id},'L',${i})">${p[0]}</div>`;});
+  const ri=[...Array(q.pairs.length).keys()].sort(()=>Math.random()-.5);
+  ri.forEach(i=>{r+=`<div class="match-item" id="mr-${q.id}-${i}" onclick="selectMatch(${q.id},'R',${i})">${q.pairs[i][1]}</div>`;});
+  return `<div class="match-wrap"><div class="match-col">${l}</div><div class="match-col">${r}</div></div><div class="fib-feedback hidden" id="match-fb-${q.id}"></div>`;
+}
+
+const matchState={};
+function selectMatch(qid,side,idx){
+  if(!matchState[qid])matchState[qid]={L:null,R:null,score:0,done:[]};
+  const s=matchState[qid];
+  if(s.done.includes(idx)&&side==='R')return;
+  s[side]=idx;
+  document.querySelectorAll(`[id^="m${side==='L'?'l':'r'}-${qid}-"]`).forEach(el=>el.classList.remove('selected'));
+  document.getElementById(`m${side==='L'?'l':'r'}-${qid}-${idx}`).classList.add('selected');
+  if(s.L!==null&&s.R!==null){
+    const q=questions.find(x=>x.id===qid);
+    const correct=s.L===s.R;
+    const lEl=document.getElementById(`ml-${qid}-${s.L}`);
+    const rEl=document.getElementById(`mr-${qid}-${s.R}`);
+    if(correct){
+      lEl.classList.add('matched-correct');rEl.classList.add('matched-correct');
+      s.score++;s.done.push(s.L);
+      if(s.score===q.pairs.length){
+        updateScore(qid,q.marks,q.tier);
+        document.querySelectorAll(`[id^="ml-${qid}-"],[id^="mr-${qid}-"]`).forEach(el=>el.classList.add('disabled'));
+      }
+    } else {
+      lEl.classList.add('matched-wrong');rEl.classList.add('matched-wrong');
+      setTimeout(()=>{lEl.classList.remove('matched-wrong','selected');rEl.classList.remove('matched-wrong','selected');},700);
+    }
+    s.L=null;s.R=null;
+  }
+}
+
+const mcqDone={},fibDone={};
+function selectMCQ(qid,idx){
+  if(mcqDone[qid])return;
+  mcqDone[qid]=true;
+  const q=questions.find(x=>x.id===qid);
+  const opts=document.querySelectorAll(`[id^="opt-${qid}-"]`);
+  opts.forEach(o=>o.classList.add('disabled'));
+  if(idx===q.answer){
+    opts[idx].classList.add('correct');
+    updateScore(qid,q.marks,q.tier);
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[q.answer].classList.add('correct');
+  }
+  updateProgress();
+}
+
+function checkFIB(qid){
+  if(fibDone[qid])return;
+  const q=questions.find(x=>x.id===qid);
+  const inp=document.getElementById(`fib-${qid}`);
+  const fb=document.getElementById(`fib-fb-${qid}`);
+  const val=inp.value.trim().toLowerCase();
+  const correct=val===q.answer.toLowerCase()||(q.altAnswers||[]).some(a=>val===a.toLowerCase());
+  fibDone[qid]=true;
+  inp.disabled=true;
+  document.getElementById(`fib-btn-${qid}`).disabled=true;
+  fb.classList.remove('hidden');
+  if(correct){inp.classList.add('correct');fb.className='fib-feedback correct';fb.textContent='✓ Correct!';updateScore(qid,q.marks,q.tier);}
+  else{inp.classList.add('wrong');fb.className='fib-feedback wrong';fb.textContent=`✗ Correct answer: ${q.answer}`;}
+  updateProgress();
+}
+
+function updateScore(qid,marks,tier){
+  score+=marks;
+  if(tier==='easy')scoreEasy+=marks;
+  else if(tier==='medium')scoreMed+=marks;
+  else scoreAdv+=marks;
+  document.getElementById('live-score').textContent=score;
+}
+
+function updateProgress(){
+  answered=Object.keys(mcqDone).length+Object.keys(fibDone).length+Object.keys(matchState).filter(k=>matchState[k].done&&matchState[k].done.length===(questions.find(q=>q.id==k)||{pairs:[]}).pairs?.length).length;
+  const total=questions.length;
+  const pct=Math.round(answered/total*100);
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-txt').textContent=`${answered} of ${total} questions answered`;
+  document.getElementById('q-done').textContent=`${answered}/${total}`;
+}
+
+function submitWS(){
+  if(submitted)return;
+  submitted=true;
+  document.getElementById('submit-btn').disabled=true;
+  const pct=Math.round(score/50*100);
+  const payload={
+    student_name:studentName,student_email:studentEmail,
+    worksheet_id:WS_ID,worksheet_title:WS_TITLE,
+    class:10,country:'India',curriculum:'NCERT/CBSE',
+    topic:'Quadratic Equations',worksheet_type:'textbook',
+    theme_name:null,difficulty_mix:'Easy+Medium+Advanced',
+    month:1,worksheet_num:2,score,max_marks:50,percentage:pct,
+    score_easy:scoreEasy,score_medium:scoreMed,score_advanced:scoreAdv,
+    questions_total:20,submitted_at:new Date().toISOString()
+  };
+  fetch(`${SUPABASE_URL}/rest/v1/worksheet_scores`,{
+    method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
+    body:JSON.stringify(payload)
+  }).catch(()=>localStorage.setItem('mn_pending_'+Date.now(),JSON.stringify(payload)));
+  showResult(score,pct);
+}
+
+function showResult(s,pct){
+  document.getElementById('worksheet').classList.add('hidden');
+  const r=document.getElementById('result');
+  r.classList.remove('hidden');
+  const bands=[
+    {min:85,emoji:'🏆',label:'Distinction'},
+    {min:70,emoji:'⭐',label:'Merit'},
+    {min:50,emoji:'📘',label:'Satisfactory'},
+    {min:0,emoji:'📝',label:'Needs Practice'}
+  ];
+  const b=bands.find(x=>pct>=x.min);
+  document.getElementById('r-emoji').textContent=b.emoji;
+  document.getElementById('r-band').textContent=b.label;
+  document.getElementById('r-score').textContent=`${s}/50`;
+  document.getElementById('r-pct').textContent=`${pct}% — ${studentName}`;
+  document.getElementById('rb-easy').textContent=`${scoreEasy}/14`;
+  document.getElementById('rb-med').textContent=`${scoreMed}/21`;
+  document.getElementById('rb-adv').textContent=`${scoreAdv}/15`;
+  if(pct>=70)confetti();
+}
+
+function confetti(){
+  const colors=['#6366f1','#818cf8','#22c55e','#f59e0b','#ec4899'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.cssText=`left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.8}s;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),4000);
+  }
+}
+
+function downloadCert(){
+  const pct=Math.round(score/50*100);
+  const d=new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+    body{font-family:'Georgia',serif;background:#f8fafc;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+    .cert{background:#fff;border:3px solid #6366f1;border-radius:20px;padding:3rem;max-width:600px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+    .logo{color:#6366f1;font-size:1.8rem;font-weight:800;margin-bottom:.25rem}
+    h2{font-size:1.1rem;color:#64748b;font-weight:400;margin-bottom:1.5rem}
+    .name{font-size:1.7rem;font-weight:700;color:#1e293b;margin:.5rem 0}
+    .score{font-size:2.5rem;font-weight:700;color:#6366f1;margin:1rem 0 .25rem}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0;border-top:1px solid #e2e8f0;padding-top:1.5rem}
+    .cell span{display:block;font-size:1.3rem;font-weight:700;color:#1e293b}
+    .cell small{color:#64748b;font-size:.8rem}
+    .date{color:#94a3b8;font-size:.85rem;margin-top:1rem}
+  </style></head><body><div class="cert">
+    <div class="logo">MathNest</div>
+    <h2>Certificate of Completion</h2>
+    <div>This certifies that</div>
+    <div class="name">${studentName}</div>
+    <div>has completed</div>
+    <div style="font-weight:600;margin:.5rem 0">Class 10 · Quadratic Equations · Textbook W2</div>
+    <div style="color:#64748b;font-size:.9rem">NCERT/CBSE · India · Month 1</div>
+    <div class="score">${score}/50 (${pct}%)</div>
+    <div class="grid">
+      <div class="cell"><span>${scoreEasy}/14</span><small>Easy</small></div>
+      <div class="cell"><span>${scoreMed}/21</span><small>Medium</small></div>
+      <div class="cell"><span>${scoreAdv}/15</span><small>Advanced</small></div>
+    </div>
+    <div class="date">Completed on ${d}</div>
+  </div></body></html>`;
+  const b=new Blob([html],{type:'text/html'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='MathNest-Certificate-W2.html';a.click();
+}
+</script>
+</body>
+</html>
